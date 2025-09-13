@@ -1,0 +1,67 @@
+<?php
+declare(strict_types=1);
+
+use Magento\Framework\View\Element\Template;
+
+/** @var Template $block */
+?>
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.store('LokiMessageStore', {
+            counter: 0,
+            messages: [],
+            init() {
+                Alpine.effect(() => {
+                    this.messages = this.getMessagesFromStore();
+                });
+            },
+            getMessages() {
+                const messagesFromCookies = LokiCookies.get('mage-messages') || [];
+
+                return [
+                    ...messagesFromCookies,
+                    ...this.messages
+                ];
+            },
+            addMessage(type, text) {
+                const messages = this.getMessagesFromStore();
+                const id = this.counter + '-' + type;
+                messages.push({id, type, text});
+                console.log(messages);
+                this.setMessageInStore(messages);
+                this.counter++;
+
+                //setTimeout(() => {
+                    //this.removeMessage(id)
+                //}, 2000);
+            },
+            addErrorMessage(text) {
+                this.addMessage('error', text);
+            },
+            addWarningMessage(text) {
+                this.addMessage('warning', text);
+            },
+            addSuccessMessage(text) {
+                this.addMessage('success', text);
+            },
+            addNoticeMessage(text) {
+                this.addMessage('notice', text);
+            },
+            reset() {
+                this.getStore().remove('messages');
+            },
+            getMessagesFromStore() {
+                const messagesSection = this.getStore().data.messages;
+                return messagesSection && messagesSection.messages ? messagesSection.messages : [];
+            },
+            setMessageInStore(messages) {
+                const messagesSection = this.getStore().data.messages || {};
+                messagesSection.messages = messages;
+                this.getStore().set('messages', messagesSection);
+            },
+            getStore() {
+                return Alpine.store('LokiLocalStorage');
+            }
+        });
+    });
+</script>

@@ -1,0 +1,27 @@
+<?php declare(strict_types=1);
+
+use Loki\Components\Factory\ViewModelFactory;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+use Loki\CssUtils\Util\CssClass;
+
+/** @var Template $block */
+/** @var Escaper $escaper */
+/** @var CssClass $css */
+/** @var ViewModelFactory $viewModelFactory */
+?>
+<div
+    class="<?= /* @noEscape */ $css('page messages') ?>"
+    x-data="LokiMessagesComponent" x-cloak x-show="hasMessages">
+    <template x-for="message in messages">
+        <div
+            class="<?= /* @noEscape */ $css('message', 'message') ?>"
+            @dblclick="removeMessage"
+            :class="message.type">
+            <div
+                class="<?= /* @noEscape */ $css('inline-block', 'message-text') ?>"
+                x-html="message.text"
+            ></div>
+        </div>
+    </template>
+</div>

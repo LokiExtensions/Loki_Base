@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="page.messages">
+            <block
+                name="loki.messages"
+                template="Loki_Base::component/messages.phtml"
+                before="-"/>
+        </referenceContainer>
+
+        <referenceContainer name="before.body.end">
+
+            <container name="loki.script">
+                <block name="loki.alpinejs" template="Loki_Base::script/alpine-csp.phtml"/>
+
+                <block name="loki.script.variables" template="Loki_Base::script/variables.phtml">
+                    <arguments>
+                        <argument name="form_key_value" xsi:type="object">Loki\Base\ViewModel\FormKeyValue</argument>
+                    </arguments>
+                </block>
+
+                <block name="loki.script.cookies" template="Loki_Base::script/cookies.phtml">
+                    <arguments>
+                        <argument name="cookie_config" xsi:type="object">Loki\Base\ViewModel\CookieConfig</argument>
+                    </arguments>
+                </block>
+            </container>
+
+            <container name="loki.store">
+                <block name="loki.store.local-storage" template="Loki_Base::script/store/localstorage-store.phtml"/>
+                <block name="loki.store.messages" template="Loki_Base::script/store/message-store.phtml"/>
+            </container>
+
+            <container name="loki.components">
+                <block name="loki.component.messages" template="Loki_Base::script/component/message-component.phtml"/>
+            </container>
+        </referenceContainer>
+    </body>
+</page>
