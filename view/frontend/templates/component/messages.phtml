@@ -10,9 +10,12 @@ use Loki\CssUtils\Util\CssClass;
 /** @var CssClass $css */
 /** @var ViewModelFactory $viewModelFactory */
 
+// @todo: Click on X in button no longer works?
+// @todo: Replace X with SVG
+
 $timeout = (int)$block->getTimeout();// @todo Right source for this?
 if (!$timeout > 0) {
-    $timeout = 4000;
+    $timeout = 40000;
 }
 ?>
 <div
@@ -29,6 +32,7 @@ if (!$timeout > 0) {
                 class="<?= /* @noEscape */ $css('inline-block', 'message-text') ?>"
                 x-html="message.text"
             ></div>
+            <button @click="removeMessage">X</button>
         </div>
     </template>
 </div>
