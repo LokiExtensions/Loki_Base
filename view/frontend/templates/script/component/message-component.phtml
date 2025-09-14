@@ -20,9 +20,6 @@ use Magento\Framework\View\Element\Template;
             removeMessage() {
                 const messageText = this.$el.getAttribute('data-message-text');
                 Alpine.store('LokiMessageStore').removeMessage(messageText);
-            },
-            onLoadDirective(args) {
-                console.log('onLoadDirective', this.$el, args);
             }
         }));
     });
