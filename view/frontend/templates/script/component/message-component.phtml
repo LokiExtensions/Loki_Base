@@ -12,14 +12,17 @@ use Magento\Framework\View\Element\Template;
             init() {
                 Alpine.effect(() => {
                     this.messages = Alpine.store('LokiMessageStore').getMessages();
-                    Alpine.store('LokiMessageStore').reset();
                 });
             },
             hasMessages() {
                 return this.messages.length > 0;
             },
             removeMessage() {
-                this.$el.style.display = 'none'
+                const messageText = this.$el.getAttribute('data-message-text');
+                Alpine.store('LokiMessageStore').removeMessage(messageText);
+            },
+            onLoadDirective(args) {
+                console.log('onLoadDirective', this.$el, args);
             }
         }));
     });

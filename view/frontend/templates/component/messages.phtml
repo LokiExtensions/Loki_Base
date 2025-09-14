@@ -9,14 +9,21 @@ use Loki\CssUtils\Util\CssClass;
 /** @var Escaper $escaper */
 /** @var CssClass $css */
 /** @var ViewModelFactory $viewModelFactory */
+
+$timeout = (int)$block->getTimeout();// @todo Right source for this?
+if (!$timeout > 0) {
+    $timeout = 4000;
+}
 ?>
 <div
     class="<?= /* @noEscape */ $css('page messages') ?>"
     x-data="LokiMessagesComponent" x-cloak x-show="hasMessages">
     <template x-for="message in messages">
         <div
-            class="<?= /* @noEscape */ $css('message', 'message') ?>"
+            :data-message-text="message.text"
             @dblclick="removeMessage"
+            x-autoremove="<?= $timeout ?>"
+            class="<?= /* @noEscape */ $css('message', 'message') ?>"
             :class="message.type">
             <div
                 class="<?= /* @noEscape */ $css('inline-block', 'message-text') ?>"

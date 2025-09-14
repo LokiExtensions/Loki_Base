@@ -32,6 +32,10 @@
                 <block name="loki.store.messages" template="Loki_Base::script/store/message-store.phtml"/>
             </container>
 
+            <container name="loki.directives">
+                <block name="loki.directive.autoremove" template="Loki_Base::script/directive/autoremove-directive.phtml"/>
+            </container>
+
             <container name="loki.components">
                 <block name="loki.component.messages" template="Loki_Base::script/component/message-component.phtml"/>
             </container>

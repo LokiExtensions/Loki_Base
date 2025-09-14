@@ -8,11 +8,12 @@ use Magento\Framework\View\Element\Template;
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.store('LokiMessageStore', {
-            counter: 0,
             messages: [],
+            storeMessages: [],
             init() {
                 Alpine.effect(() => {
-                    this.messages = this.getMessagesFromStore();
+                    this.storeMessages = this.getMessagesFromStore();
+                    this.getStore().reset('messages');
                 });
             },
             getMessages() {
@@ -20,20 +21,20 @@ use Magento\Framework\View\Element\Template;
 
                 return [
                     ...messagesFromCookies,
+                    ...this.storeMessages,
                     ...this.messages
                 ];
             },
             addMessage(type, text) {
+                this.messages.push({type, text});
+            },
+            removeMessage(text) {
+                this.messages = Object.values(this.messages).filter(message => message.text !== text);
+            },
+            saveMessage(type, text) {
                 const messages = this.getMessagesFromStore();
-                const id = this.counter + '-' + type;
-                messages.push({id, type, text});
-                console.log(messages);
+                messages.push({type, text});
                 this.setMessageInStore(messages);
-                this.counter++;
-
-                //setTimeout(() => {
-                    //this.removeMessage(id)
-                //}, 2000);
             },
             addErrorMessage(text) {
                 this.addMessage('error', text);
