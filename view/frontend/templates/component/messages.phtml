@@ -9,11 +9,6 @@ use Loki\CssUtils\Util\CssClass;
 /** @var Escaper $escaper */
 /** @var CssClass $css */
 /** @var ViewModelFactory $viewModelFactory */
-
-$timeout = (int)$block->getTimeout();// @todo Right source for this?
-if (!$timeout > 0) {
-    $timeout = 10000;
-}
 ?>
 <div
     class="<?= /* @noEscape */ $css('container mx-auto py-3') ?>"
@@ -22,7 +17,7 @@ if (!$timeout > 0) {
         <div
             :data-message-text="message.text"
             @dblclick="removeMessage"
-            x-autoremove="<?= $timeout ?>"
+            x-autoremove="timeout"
             class="<?= /* @noEscape */ $css('message', 'message') ?>"
             :class="message.type">
             <div

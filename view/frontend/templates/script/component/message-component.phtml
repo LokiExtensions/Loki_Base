@@ -4,11 +4,17 @@ declare(strict_types=1);
 use Magento\Framework\View\Element\Template;
 
 /** @var Template $block */
+
+$timeout = (int)$block->getTimeout();// @todo Right source for this?
+if (!$timeout > 0) {
+    $timeout = 10000;
+}
 ?>
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('LokiMessagesComponent', () => ({
             messages: [],
+            timeout: <?= (int)$timeout ?>,
             init() {
                 Alpine.effect(() => {
                     this.messages = Alpine.store('LokiMessageStore').getMessages();
@@ -20,7 +26,7 @@ use Magento\Framework\View\Element\Template;
             removeMessage() {
                 const messageText = this.$el.getAttribute('data-message-text');
                 Alpine.store('LokiMessageStore').removeMessage(messageText);
-            }
+            },
         }));
     });
 </script>
