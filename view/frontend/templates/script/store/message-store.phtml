@@ -21,7 +21,6 @@ use Magento\Framework\View\Element\Template;
             getMessages() {
                 const cookieMessages = LokiCookies.get('mage-messages') || [];
                 if (cookieMessages && cookieMessages.length > 0) {
-                    console.log('cookieMessages', cookieMessages);
                     this.messages = [...this.messages, ...cookieMessages];
                     LokiCookies.remove('mage-messages');
                 }
