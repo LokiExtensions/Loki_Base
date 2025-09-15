@@ -3,43 +3,47 @@ declare(strict_types=1);
 
 namespace Loki\Base\ViewModel;
 
-use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Session\Config;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
-use Magento\Store\Model\ScopeInterface;
 
 class CookieConfig implements ArgumentInterface
 {
     public function __construct(
-        private readonly ScopeConfigInterface $scopeConfig,
+        private readonly Config $sessionConfig,
     ) {
     }
 
     public function getLifetime(): int
     {
-        return (int)$this->get('web/cookie/cookie_lifetime');
+        return (int)$this->sessionConfig->getCookieLifetime();
     }
 
     public function getPath(): string
     {
-        return (string)$this->get('web/cookie/cookie_path');
+        return (string)$this->sessionConfig->getCookiePath();
     }
 
     public function getDomain(): string
     {
-        return (string)$this->get('web/cookie/cookie_domain');
+        $cookieDomain = (string)$this->sessionConfig->getCookieDomain();
+        if (!$cookieDomain) {
+            return '';
+        }
+
+        if (str_starts_with($cookieDomain, '.')) {
+            return $cookieDomain;
+        }
+
+        return '.' . $cookieDomain;
     }
 
     public function isHttpOnly(): int
     {
-        return (int)$this->get('web/cookie/cookie_httponly');
+        return (int)$this->sessionConfig->getCookieHttpOnly();
     }
 
     public function getSameSite(): string
     {
-        return 'Strict'; // @todo Strict, Lax or None
-    }
-    private function get(string $path): mixed
-    {
-        return $this->scopeConfig->getValue($path, ScopeInterface::SCOPE_STORE);
+        return 'Lax'; // @todo Strict, Lax or None
     }
 }

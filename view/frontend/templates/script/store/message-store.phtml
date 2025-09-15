@@ -9,22 +9,24 @@ use Magento\Framework\View\Element\Template;
     document.addEventListener('alpine:init', () => {
         Alpine.store('LokiMessageStore', {
             messages: [],
-            storeMessages: [],
             init() {
                 Alpine.effect(() => {
-                    this.storeMessages = this.getMessagesFromStore();
-                    this.getStore().reset('messages');
+                    const storeData = Alpine.store('LokiLocalStorage').data;
+                    if (storeData && storeData.messages && storeData.messages.messages) {
+                        this.messages = [...this.messages, ...storeData.messages.messages];
+                        this.getStore().set('messages', {messages: []});
+                    }
                 });
             },
             getMessages() {
-                const messagesFromCookies = LokiCookies.get('mage-messages') || [];
-                LokiCookies.remove('mage-messages');
+                const cookieMessages = LokiCookies.get('mage-messages') || [];
+                if (cookieMessages && cookieMessages.length > 0) {
+                    console.log('cookieMessages', cookieMessages);
+                    this.messages = [...this.messages, ...cookieMessages];
+                    LokiCookies.remove('mage-messages');
+                }
 
-                return [
-                    ...messagesFromCookies,
-                    ...this.storeMessages,
-                    ...this.messages
-                ];
+                return this.messages;
             },
             addMessage(type, text) {
                 this.messages.push({type, text});
@@ -53,11 +55,11 @@ use Magento\Framework\View\Element\Template;
                 this.getStore().remove('messages');
             },
             getMessagesFromStore() {
-                const messagesSection = this.getStore().get('messages');
+                const messagesSection = this.getStore().data.messages;
                 return messagesSection && messagesSection.messages ? messagesSection.messages : [];
             },
             setMessageInStore(messages) {
-                const messagesSection = this.getStore().get('messages');
+                const messagesSection = this.getStore().data.messages;
                 messagesSection.messages = messages;
                 this.getStore().set('messages', messagesSection);
             },

@@ -40,7 +40,8 @@ use Magento\Framework\View\Element\Template;
                     })
                     .then(newData => {
                         if (typeof newData === 'object') {
-                            this.data = Object.assign(this.get(), newData);
+                            this.data = Object.assign(this.data, newData);
+                            console.log('Fetching new data', newData);
                             this.save();
                         }
                     })
