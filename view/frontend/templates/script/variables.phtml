@@ -9,8 +9,14 @@ use Magento\Framework\View\Element\Template;
 /** @var FormKeyValue $formKeyValue */
 
 $formKeyValue = $block->getFormKeyValue();
+$mobileWidth = $block->getMobileWidth();
+if (!is_numeric($mobileWidth) || $mobileWidth < 100) {
+    $mobileWidth = 767;
+}
 ?>
 <script>
     var LOKI_BASE_URL = '<?= /* @noEscape */ $block->getBaseUrl() ?>';
     var LOKI_FORM_KEY = '<?= /* @noEscape */ $formKeyValue->get() ?>';
+    var LOKI_CURRENT_URL = window.location.href.split('?')[0];
+    var LOKI_IS_MOBILE = ((window.innerWidth > 0) ? window.innerWidth : screen.width) < <?= /* @noEscape */ (int)$mobileWidth ?>;
 </script>

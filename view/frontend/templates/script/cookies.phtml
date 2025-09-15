@@ -56,8 +56,13 @@ $cookieConfig = $block->getCookieConfig();
             }
 
             cookieParts.push('SameSite=' + this.sameSite);
-            console.log('set cookie', cookieParts);
 
+            document.cookie = cookieParts.join('; ');
+        },
+        remove(name) {
+            let cookieParts = [];
+            cookieParts.push(name + '=0');
+            cookieParts.push('max-age=-99999999');
             document.cookie = cookieParts.join('; ');
         },
         isAllowedSaving() {
