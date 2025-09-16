@@ -5,7 +5,7 @@ use Magento\Framework\View\Element\Template;
 
 /** @var Template $block */
 
-$timeout = (int)$block->getTimeout();// @todo Right source for this?
+$timeout = (int)$block->getTimeout(); // @todo Right source for this?
 if (!$timeout > 0) {
     $timeout = 10000;
 }
