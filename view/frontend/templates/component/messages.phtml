@@ -17,6 +17,7 @@ use Loki\CssUtils\Util\CssClass;
         <div
             :data-message-text="message.text"
             @dblclick="removeMessage"
+            @keyup.escape.window="removeMessage"
             x-autoremove="timeout"
             class="<?= /* @noEscape */ $css('message', 'message') ?>"
             :class="message.type">
