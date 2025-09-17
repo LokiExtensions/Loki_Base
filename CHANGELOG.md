@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Move experimental LESS sources away from compilation
 - Remove console.log message
+- Remove dep with `Loki_Components`
 
 ## [1.0.1] - 17 September 2025
 ### Fixed
