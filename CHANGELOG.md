@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.4] - 17 September 2025
+### Fixed
+- Re-add styling of buttons
+
 ## [1.0.3] - 17 September 2025
 ### Fixed
 - Really move all LESS away from CSS folder
