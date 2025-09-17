@@ -15,10 +15,23 @@ use Magento\Framework\View\Element\Template;
             data: {},
             init() {
                 const storedData = localStorage.getItem(this.key);
-                this.data = storedData ? JSON.parse(storedData) : null;
+                this.data = storedData ? JSON.parse(storedData) : {};
 
                 if (!this.data) {
                     this.refresh();
+                }
+
+                let changed = false;
+                Object.entries(this.data).forEach(([key, value]) => {
+                    if (value.data_id && value.data_id < Date. now()) {
+                        delete this.data[key];
+                        changed = true;
+                    }
+                })
+
+
+                if (changed) {
+                    localStorage.setItem(this.key, JSON.stringify(this.data));
                 }
             },
             save() {
