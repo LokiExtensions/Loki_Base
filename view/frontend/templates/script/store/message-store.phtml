@@ -14,7 +14,7 @@ use Magento\Framework\View\Element\Template;
                     const messageSection = Alpine.store('LokiLocalStorage').get('messages');
                     if (messageSection && messageSection.messages) {
                         this.messages = [...this.messages, ...messageSection.messages];
-                        this.getStore().set('messages', {messages: []});
+                        this.reset();
                     }
                 });
             },
@@ -51,16 +51,20 @@ use Magento\Framework\View\Element\Template;
                 this.addMessage('notice', text);
             },
             reset() {
-                this.getStore().remove('messages');
+                this.getStore().set('messages', {
+                    data_id: this.getStore().getNewSectionLifetime(),
+                    messages: []
+                });
             },
             getMessagesFromStore() {
                 const messagesSection = this.getStore().get('messages');
                 return messagesSection && messagesSection.messages ? messagesSection.messages : [];
             },
             setMessageInStore(messages) {
-                const messagesSection = this.getStore().get('messages');
-                messagesSection.messages = messages;
-                this.getStore().set('messages', messagesSection);
+                this.getStore().set('messages', {
+                    data_id: this.getStore().getNewSectionLifetime(),
+                    messages
+                });
             },
             getStore() {
                 return Alpine.store('LokiLocalStorage');

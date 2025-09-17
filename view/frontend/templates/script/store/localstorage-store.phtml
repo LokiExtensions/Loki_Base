@@ -2,16 +2,19 @@
 declare(strict_types=1);
 
 
+use Loki\Base\ViewModel\SectionConfig;
 use Magento\Framework\View\Element\Template;
 
 /** @var Template $block */
+/** @var SectionConfig $sectionConfig */
 
-// @todo: Invalidate sections based on data_id
+$sectionConfig = $block->getSectionConfig();
 ?>
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.store('LokiLocalStorage', {
             key: 'mage-cache-storage',
+            sectionLifetime: <?= (int)$sectionConfig->getSectionDataLifeTime() * 60 ?>,
             data: {},
             init() {
                 const storedData = localStorage.getItem(this.key);
@@ -22,25 +25,41 @@ use Magento\Framework\View\Element\Template;
                 }
 
                 let changed = false;
+                const cookieSections = LokiCookies.get('section_data_ids') || {};
+
                 Object.entries(this.data).forEach(([key, value]) => {
-                    if (value.data_id && value.data_id < Date. now()) {
+                    const isSectionExpired = !value.data_id || parseInt(value.data_id) + this.sectionLifetime < this.getCurrentTimestamp();
+                    const isCookieSectionExpired = cookieSections[key] && cookieSections[key] + this.sectionLifetime < this.getCurrentTimestamp();
+
+                    if (isSectionExpired || isCookieSectionExpired) {
                         delete this.data[key];
                         changed = true;
                     }
                 })
 
-
                 if (changed) {
                     localStorage.setItem(this.key, JSON.stringify(this.data));
                 }
             },
+            getNewSectionLifetime() {
+                return this.getCurrentTimestamp() + this.sectionLifetime;
+            },
+            getCurrentTimestamp() {
+                return Math.floor(Date.now() / 1000);
+            },
             save() {
                 localStorage.setItem(this.key, JSON.stringify(this.data));
             },
-            refresh(sections) {
-                let url = LOKI_BASE_URL + '/customer/section/load';
+            refresh(sections, forceNewSectionTimestamp) {
+                let url = new URL(LOKI_BASE_URL + '/customer/section/load');
                 if (sections) {
-                    url += '?sections=' + sections;
+                    url.searchParams.append('sections', sections);
+                }
+
+                forceNewSectionTimestamp = !!forceNewSectionTimestamp;
+                if (forceNewSectionTimestamp) {
+                    url.searchParams.append('force_new_section_timestamp', 'true');
+                    url.searchParams.append('_', Math.floor(Date.now() / 1000));
                 }
 
                 fetch(url, {
@@ -54,7 +73,6 @@ use Magento\Framework\View\Element\Template;
                     .then(newData => {
                         if (typeof newData === 'object') {
                             this.data = Object.assign(this.data, newData);
-                            console.log('Fetching new data', newData);
                             this.save();
                         }
                     })
@@ -68,7 +86,8 @@ use Magento\Framework\View\Element\Template;
                     return this.data;
                 }
 
-                if (!this.data.hasOwnProperty(key) || !this.data[key] ) {
+                if (!this.data[key] ) {
+                    console.log('Refreshing data:', key, this.data[key]);
                     this.refresh(key);
                 }
 
@@ -79,8 +98,10 @@ use Magento\Framework\View\Element\Template;
                 this.save();
             },
             remove(key) {
-                delete this.data[key];
-                this.save();
+                if (key !== undefined) {
+                    delete this.data[key];
+                    this.save();
+                }
             },
             reset() {
                 this.data = {};
