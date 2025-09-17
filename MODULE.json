@@ -1,9 +1,11 @@
 {
-    "sequence": [],
-    "modules": [],
+    "sequence": [
+        "Loki_CssUtils"
+    ],
+    "modules": [
+        "Loki_CssUtils"
+    ],
     "components": [],
     "config": [],
-    "tests": [],
-    "phpcs_severity": "8",
-    "phpstan_level": "8"
+    "tests": []
 }
