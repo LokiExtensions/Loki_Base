@@ -19,13 +19,22 @@ use Magento\Framework\View\Element\Template;
                 });
             },
             getMessages() {
-                const cookieMessages = LokiCookies.get('mage-messages') || [];
-                if (cookieMessages && cookieMessages.length > 0) {
+                const cookieMessages = this.getCookieMessages();
+                if (cookieMessages.length > 0) {
                     this.messages = [...this.messages, ...cookieMessages];
                     LokiCookies.remove('mage-messages');
                 }
 
                 return this.messages;
+            },
+            getCookieMessages() {
+                const cookieMessages = LokiCookies.get('mage-messages') || [];
+                if (!cookieMessages instanceof Array) {
+                    LokiCookies.remove('mage-messages');
+                    return [];
+                }
+
+                return cookieMessages;
             },
             addMessage(type, text) {
                 this.messages.push({type, text});
