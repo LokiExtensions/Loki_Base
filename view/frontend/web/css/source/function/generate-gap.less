@@ -1,0 +1,10 @@
+.generate-gaps(@from: 0; @to: 12; @step: 0.25rem; @prefix: ~'.') {
+    .-gap-loop(@i) when (@i =< @to) {
+        @val: (@i * @step);
+        @{prefix}gap-@{i} { gap: @val; }
+        @{prefix}gap-x-@{i} { column-gap: @val; }
+        @{prefix}gap-y-@{i} { row-gap: @val; }
+        .-gap-loop(@i + 1);
+    }
+    .-gap-loop(@from);
+}

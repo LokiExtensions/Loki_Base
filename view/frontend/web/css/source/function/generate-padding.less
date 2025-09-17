@@ -1,0 +1,15 @@
+.generate-padding(@from: 0; @to: 12; @step: 0.5; @stepUnit: 0.125rem; @prefix: ~'.') {
+    .-padding-loop(@i) when (@i =< @to) {
+        @val: (@i * @step);
+        @valUnit: (@i * @stepUnit);
+        @{prefix}p-@{i} { padding: @valUnit; }
+        @{prefix}pl-@{i} { padding-left: @valUnit; }
+        @{prefix}pr-@{i} { padding-right: @valUnit; }
+        @{prefix}pt-@{i} { padding-top: @valUnit; }
+        @{prefix}pb-@{i} { padding-bottom: @valUnit; }
+        @{prefix}px-@{i} { padding-left: @valUnit; padding-right: @valUnit; }
+        @{prefix}py-@{i} { padding-top: @valUnit; padding-bottom: @valUnit; }
+        .-padding-loop(@i + 1);
+    }
+    .-padding-loop(@from);
+}
