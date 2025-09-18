@@ -1,6 +1,10 @@
 {
-    "sequence": [],
-    "modules": [],
+    "sequence": [
+        "Loki_CssUtils"
+    ],
+    "modules": [
+        "Loki_CssUtils"
+    ],
     "components": [],
     "config": [],
     "tests": []
