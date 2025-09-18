@@ -26,14 +26,14 @@
                 </block>
             </container>
 
-            <container name="loki.store">
-                <block name="loki.store.local-storage" template="Loki_Base::script/store/localstorage-store.phtml">
+            <container name="loki.script.store">
+                <block name="loki.script.store.local-storage" template="Loki_Base::script/store/localstorage-store.phtml">
                     <arguments>
                         <argument name="section_config" xsi:type="object">Loki\Base\ViewModel\SectionConfig</argument>
                     </arguments>
                 </block>
 
-                <block name="loki.store.messages" template="Loki_Base::script/store/message-store.phtml"/>
+                <block name="loki.script.store.messages" template="Loki_Base::script/store/message-store.phtml"/>
             </container>
 
             <container name="loki-directives">
