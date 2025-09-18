@@ -47,7 +47,7 @@
                 <block name="loki.component.messages" template="Loki_Base::script/component/message-component.phtml"/>
             </container>
 
-            <!-- legacy container, do not use -->
+            <!-- legacy containers, do not use -->
             <container name="loki-components"/>
         </referenceContainer>
     </body>
