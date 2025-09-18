@@ -36,8 +36,8 @@
                 <block name="loki.script.store.messages" template="Loki_Base::script/store/message-store.phtml"/>
             </container>
 
-            <container name="loki-directives">
-                <block name="loki.directive.autoremove" template="Loki_Base::script/directive/autoremove-directive.phtml"/>
+            <container name="loki.script.directive">
+                <block name="loki.script.directive.autoremove" template="Loki_Base::script/directive/autoremove-directive.phtml"/>
             </container>
 
             <container name="loki.script.component-partial"/>
