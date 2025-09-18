@@ -10,7 +10,6 @@
         </referenceContainer>
 
         <referenceContainer name="before.body.end">
-
             <container name="loki.script">
                 <block name="loki.alpinejs" template="Loki_Base::script/alpine-csp.phtml"/>
 
