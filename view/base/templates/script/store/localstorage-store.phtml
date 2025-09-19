@@ -41,7 +41,7 @@ $sectionConfig = $block->getSectionConfig();
                     localStorage.setItem(this.key, JSON.stringify(this.data));
                 }
 
-                window.dispatchEvent(new CustomEvent('loki:init:localstorage-store', {}));
+                document.dispatchEvent(new CustomEvent('loki:init:localstorage-store', {}));
             },
             getNewSectionLifetime() {
                 return this.getCurrentTimestamp() + this.sectionLifetime;
