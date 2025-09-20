@@ -40,8 +40,10 @@ use Magento\Framework\View\Element\Template;
             addMessage(type, text) {
                 this.messages.push({type, text});
             },
-            removeMessage(text) {
-                this.messages = Object.values(this.messages).filter(message => message.text !== text);
+            removeMessage(type, text) {
+                this.messages = this.messages.filter(message => {
+                    return !(message.type === type && message.text === text);
+                });
             },
             saveMessage(type, text) {
                 const messages = this.getMessagesFromStore();

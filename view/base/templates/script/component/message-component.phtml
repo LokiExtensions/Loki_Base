@@ -8,7 +8,7 @@ use Magento\Framework\View\Element\Template;
 
 $timeout = (int)$block->getTimeout(); // @todo Right source for this?
 if (!$timeout > 0) {
-    $timeout = 10000;
+    $timeout = 100000;
 }
 ?>
 <script>
@@ -25,8 +25,9 @@ if (!$timeout > 0) {
                 return this.messages.length > 0;
             },
             removeMessage() {
-                const messageText = this.$el.getAttribute('data-message-text');
-                Alpine.store('LokiMessageStore').removeMessage(messageText);
+                const type = this.$el.getAttribute('data-message-type');
+                const text = this.$el.getAttribute('data-message-text');
+                Alpine.store('LokiMessageStore').removeMessage(type, text);
             },
         }));
     });
