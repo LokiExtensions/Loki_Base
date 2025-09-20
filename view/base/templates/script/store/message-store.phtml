@@ -5,19 +5,26 @@ use Magento\Framework\View\Element\Template;
 
 /** @version 1.0.4 */
 /** @var Template $block */
+
+$fetchLocalStorage = !(bool)$block->getSkipLocalStorage();
+$fetchCookies = !(bool)$block->getSkipCookies();
 ?>
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.store('LokiMessageStore', {
             messages: [],
+            fetchLocalStorage: <?= /* @noEscape */ $fetchLocalStorage ? 'true' : 'false' ?>,
+            fetchCookies: <?= /* @noEscape */ $fetchLocalStorage ? 'true' : 'false' ?>,
             init() {
-                Alpine.effect(() => {
-                    const messageSection = Alpine.store('LokiLocalStorage').get('messages');
-                    if (messageSection && messageSection.messages) {
-                        this.messages = [...this.messages, ...messageSection.messages];
-                        this.reset();
-                    }
-                });
+                if (this.fetchLocalStorage) {
+                    Alpine.effect(() => {
+                        const messageSection = Alpine.store('LokiLocalStorage').get('messages');
+                        if (messageSection && messageSection.messages) {
+                            this.messages = [...this.messages, ...messageSection.messages];
+                            this.reset();
+                        }
+                    });
+                }
             },
             getMessages() {
                 const cookieMessages = this.getCookieMessages();
@@ -29,6 +36,10 @@ use Magento\Framework\View\Element\Template;
                 return this.messages;
             },
             getCookieMessages() {
+                if (!this.fetchCookies) {
+                    return [];
+                }
+
                 const cookieMessages = LokiCookies.get('mage-messages') || [];
                 if (!cookieMessages instanceof Array) {
                     LokiCookies.remove('mage-messages');
