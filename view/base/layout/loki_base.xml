@@ -26,7 +26,11 @@
                 </block>
             </container>
 
-            <container name="loki.script.store">
+            <block name="loki.script.store" template="Loki_Base::container.phtml">
+                <arguments>
+                    <argument name="cache_lifetime" xsi:type="number">86400</argument>
+                </arguments>
+
                 <block name="loki.script.store.local-storage" template="Loki_Base::script/store/localstorage-store.phtml">
                     <arguments>
                         <argument name="section_config" xsi:type="object">Loki\Base\ViewModel\SectionConfig</argument>
@@ -34,21 +38,21 @@
                 </block>
 
                 <block name="loki.script.store.messages" template="Loki_Base::script/store/message-store.phtml"/>
-            </container>
+            </block>
 
-            <container name="loki.script.directive">
+            <block name="loki.script.directive" template="Loki_Base::container.phtml">
                 <block name="loki.script.directive.autoremove" template="Loki_Base::script/directive/autoremove-directive.phtml"/>
-            </container>
+            </block>
 
-            <container name="loki.script.component-partial"/>
-            <container name="loki.script.component-type"/>
+            <block name="loki.script.component-partial" template="Loki_Base::container.phtml">
+            </block>
 
-            <container name="loki.script.component">
+            <block name="loki.script.component-type" template="Loki_Base::container.phtml">
+            </block>
+
+            <block name="loki.script.component" template="Loki_Base::container.phtml">
                 <block name="loki.component.messages" template="Loki_Base::script/component/message-component.phtml"/>
-            </container>
-
-            <!-- legacy containers, do not use -->
-            <container name="loki-components"/>
+            </block>
         </referenceContainer>
     </body>
 </page>
