@@ -10,21 +10,27 @@
         </referenceContainer>
 
         <referenceContainer name="before.body.end">
-            <container name="loki.script">
-                <block name="loki.alpinejs" template="Loki_Base::script/alpine-csp.phtml"/>
-
-                <block name="loki.script.variables" template="Loki_Base::script/variables.phtml">
+            <container name="loki.dynamic-script">
+                <block name="loki.dynamic-script.variables" template="Loki_Base::script/variables.phtml">
                     <arguments>
                         <argument name="form_key_value" xsi:type="object">Loki\Base\ViewModel\FormKeyValue</argument>
                     </arguments>
                 </block>
+            </container>
+
+            <block name="loki.script" template="Loki_Base::script/script-container.phtml">
+                <arguments>
+                    <argument name="cache_lifetime" xsi:type="number">86400</argument>
+                </arguments>
+
+                <block name="loki.alpinejs" template="Loki_Base::script/alpine-csp.phtml"/>
 
                 <block name="loki.script.cookies" template="Loki_Base::script/cookies.phtml">
                     <arguments>
                         <argument name="cookie_config" xsi:type="object">Loki\Base\ViewModel\CookieConfig</argument>
                     </arguments>
                 </block>
-            </container>
+            </block>
 
             <block name="loki.script.store" template="Loki_Base::script/script-container.phtml">
                 <arguments>
@@ -41,16 +47,30 @@
             </block>
 
             <block name="loki.script.directive" template="Loki_Base::script/script-container.phtml">
+                <arguments>
+                    <argument name="cache_lifetime" xsi:type="number">86400</argument>
+                </arguments>
+
                 <block name="loki.script.directive.autoremove" template="Loki_Base::script/directive/autoremove-directive.phtml"/>
             </block>
 
             <block name="loki.script.component-partial" template="Loki_Base::script/script-container.phtml">
+                <arguments>
+                    <argument name="cache_lifetime" xsi:type="number">86400</argument>
+                </arguments>
             </block>
 
             <block name="loki.script.component-type" template="Loki_Base::script/script-container.phtml">
+                <arguments>
+                    <argument name="cache_lifetime" xsi:type="number">86400</argument>
+                </arguments>
             </block>
 
             <block name="loki.script.component" template="Loki_Base::script/script-container.phtml">
+                <arguments>
+                    <argument name="cache_lifetime" xsi:type="number">86400</argument>
+                </arguments>
+
                 <block name="loki.component.messages" template="Loki_Base::script/component/message-component.phtml"/>
             </block>
         </referenceContainer>
