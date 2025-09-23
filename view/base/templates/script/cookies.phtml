@@ -2,21 +2,23 @@
 declare(strict_types=1);
 
 use Loki\Base\ViewModel\CookieConfig;
+use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 
 /** @version 1.1.0 */
 /** @var Template $block */
 /** @var CookieConfig $cookieConfig */
+/** @var Escaper $escaper */
 
 $cookieConfig = $block->getCookieConfig();
 ?>
 <script>
     const LokiCookies = {
-        lifetime: <?= /* @noEscape */ $cookieConfig->getLifetime() ?>,
-        domain: '<?= /* @noEscape */ $cookieConfig->getDomain() ?>',
-        path: '<?= /* @noEscape */ $cookieConfig->getPath() ?>',
-        httpOnly: <?= /* @noEscape */ $cookieConfig->isHttpOnly() ?>,
-        sameSite: '<?= /* @noEscape */ $cookieConfig->getSameSite() ?>',
+        lifetime: <?= (int)$cookieConfig->getLifetime() ?>,
+        domain: '<?= $escaper->escapeHtml($cookieConfig->getDomain()) ?>',
+        path: '<?= $escaper->escapeHtml($cookieConfig->getPath()) ?>',
+        httpOnly: <?= (int)$cookieConfig->isHttpOnly() ?>,
+        sameSite: '<?=  $escaper->escapeHtml($cookieConfig->getSameSite()) ?>',
         getAll() {
             const cookies = {};
             document.cookie.split(';').forEach(cookie => {

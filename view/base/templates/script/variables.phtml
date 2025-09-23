@@ -2,11 +2,13 @@
 declare(strict_types=1);
 
 use Loki\Base\ViewModel\FormKeyValue;
+use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 
 /** @version 1.1.0 */
 /** @var Template $block */
 /** @var FormKeyValue $formKeyValue */
+/** @var Escaper $escaper */
 
 $formKeyValue = $block->getFormKeyValue();
 $mobileWidth = $block->getMobileWidth();
@@ -15,8 +17,8 @@ if (!is_numeric($mobileWidth) || $mobileWidth < 100) {
 }
 ?>
 <script>
-    var LOKI_BASE_URL = '<?= /* @noEscape */ $block->getBaseUrl() ?>';
+    var LOKI_BASE_URL = '<?= $escaper->escapeUrl($block->getBaseUrl()) ?>';
     var LOKI_FORM_KEY = '<?= /* @noEscape */ $formKeyValue->get() ?>';
     var LOKI_CURRENT_URL = window.location.href.split('?')[0];
-    var LOKI_IS_MOBILE = ((window.innerWidth > 0) ? window.innerWidth : screen.width) < <?= /* @noEscape */ (int)$mobileWidth ?>; // @todo: What happens if you change browser width on the fly?
+    var LOKI_IS_MOBILE = ((window.innerWidth > 0) ? window.innerWidth : screen.width) < <?= (int)$mobileWidth ?>; // @todo: What happens if you change browser width on the fly?
 </script>

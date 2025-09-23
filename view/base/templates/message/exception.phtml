@@ -13,11 +13,11 @@ use Magento\Framework\View\Element\Template;
 
 ?>
 <details>
-    <summary><?= $block->getMessage() ?></summary>
-    [<?= $block->getFile() ?> line <?= $block->getLine() ?>]<br/>
-    <code class="<?= $css('block mt-4 text-sm', 'trace') ?>">
+    <summary><?= $escaper->escapeHtml($block->getMessage()) ?></summary>
+    [<?= $block->getFile() ?> line <?= (int)$block->getLine() ?>]<br/>
+    <code class="<?= $escaper->escapeHtmlAttr($css('block mt-4 text-sm', 'trace')) ?>">
         <?php foreach ($block->getTrace() as $trace): ?>
-            <?= $trace ?><br/>
+            <?= $escaper->escapeHtml($trace) ?><br/>
         <?php endforeach; ?>
     </code>
 </details>
