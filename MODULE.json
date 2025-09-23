@@ -15,7 +15,7 @@
     "components": [],
     "config": [
         {
-            "path": "loki_base\/messages\/timeout",
+            "path": "loki_base/messages/timeout",
             "label": "Messages > Timeout",
             "description": "Whenever messages are popping up, they are automatically after this timeout. This is by default 5000ms (5 seconds)."
         }
@@ -24,5 +24,6 @@
         "unit": 0,
         "integration": 3,
         "functional": 0
-    }
+    },
+    "phpcs_severity": "8"
 }
