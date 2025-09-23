@@ -1,0 +1,22 @@
+<?php
+declare(strict_types=1);
+
+use Loki\CssUtils\Util\CssClass;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+
+/** @var Template $block */
+/** @var Escaper $escaper */
+/** @var CssClass $css */
+/** @var Exception $exception */
+
+?>
+<details>
+    <summary><?= $block->getMessage() ?></summary>
+    [<?= $block->getFile() ?> line <?= $block->getLine() ?>]<br/>
+    <code class="<?= $css('block mt-4 text-sm', 'trace') ?>">
+        <?php foreach ($block->getTrace() as $trace): ?>
+            <?= $trace ?><br/>
+        <?php endforeach; ?>
+    </code>
+</details>
