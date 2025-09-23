@@ -6,6 +6,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 23 September 2025
+### Added
+- Add Loki Component exception as complex message
+- Move messages timeout configuration from `Loki_Components` to `Loki_Base`
+- Add custom Block class that adds layout-name to cache key info
+- Move frontend assets to base to allow for admin features
+- Add custom event "loki:init:localstorage-store"
+
+### Fixed
+- Remove redundant CSS classes from icon containers
+- Reset message timeout to 5000
+- Rename `loki.script` from container to block to allow caching
+- Skip handling messages via cookies and localStorage under Hyva
+- Rewrite transfer of global messages from components to be a lot simpler
+- Rename loki-directive to loki.script.directive
+- Rename loki-store to loki.script.store
+- Rename loki-components to loki.script.component
+- Rename loki-component-types to loki.script.component-type
+- Rename loki-component-partials to loki.script.component-partial
+- Cleanup duplicate containers, move to `Loki_Base`
+
 ## [1.0.4] - 17 September 2025
 ### Fixed
 - Re-add styling of buttons
