@@ -6,7 +6,8 @@
             <block
                 name="loki.messages"
                 template="Loki_Base::component/messages.phtml"
-                before="-"/>
+                before="-">
+            </block>
         </referenceContainer>
 
         <referenceContainer name="before.body.end">
@@ -89,7 +90,11 @@
                     <argument name="cache_lifetime" xsi:type="number">86400</argument>
                 </arguments>
 
-                <block name="loki.component.messages" template="Loki_Base::script/component/message-component.phtml"/>
+                <block name="loki.component.messages" template="Loki_Base::script/component/message-component.phtml">
+                    <arguments>
+                        <argument name="config" xsi:type="object">Loki\Base\Config\Config</argument>
+                    </arguments>
+                </block>
             </block>
         </referenceContainer>
     </body>

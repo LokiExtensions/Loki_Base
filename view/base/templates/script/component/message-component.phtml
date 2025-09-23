@@ -1,14 +1,17 @@
 <?php
 declare(strict_types=1);
 
+use Loki\Base\Config\Config;
 use Magento\Framework\View\Element\Template;
 
 /** @version 1.0.4 */
 /** @var Template $block */
+/** @var Config $config */
 
-$timeout = (int)$block->getTimeout(); // @todo Right source for this?
-if (!$timeout > 0) {
-    $timeout = 5000;
+$timeout = $block->getTimeout();
+if (false === is_numeric($timeout) || $timeout < 0) {
+    $config = $block->getConfig();
+    $timeout = $config->getMessagesTimeout();
 }
 ?>
 <script>

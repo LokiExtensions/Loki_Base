@@ -3,6 +3,8 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
     <module name="Loki_Base">
         <sequence>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Config"/>
             <module name="Loki_CssUtils"/>
         </sequence>
     </module>
