@@ -19,9 +19,5 @@
             "description": "Whenever messages are popping up, they are automatically after this timeout. This is by default 5000ms (5 seconds)."
         }
     ],
-    "tests": {
-        "unit": 0,
-        "integration": 3,
-        "functional": 0
-    }
+    "tests": []
 }
