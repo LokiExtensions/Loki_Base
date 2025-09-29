@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.1] - 29 September 2025
+### Fixed
+- When removing cookies, ignore the domain-value
+
 ## [1.1.0] - 23 September 2025
 ### Added
 - Add Loki Component exception as complex message
