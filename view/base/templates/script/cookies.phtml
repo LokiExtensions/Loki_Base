@@ -50,6 +50,7 @@ $cookieConfig = $block->getCookieConfig();
         },
         remove(name) {
             let cookieParts = this.getCookieParts(name, 0);
+            cookieParts = cookieParts.filter(cookiePart => !cookiePart.startsWith('domain='));
             cookieParts = cookieParts.filter(cookiePart => !cookiePart.startsWith('max-age='));
             cookieParts.push('max-age=-999999');
 
