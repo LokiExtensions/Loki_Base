@@ -23,9 +23,6 @@
                 name="loki.script"
                 class="Loki\Base\Block\LokiScript"
                 template="Loki_Base::script/script-container.phtml">
-                <arguments>
-                    <argument name="cache_lifetime" xsi:type="number">86400</argument>
-                </arguments>
 
                 <block name="loki.alpinejs" template="Loki_Base::script/alpine-csp.phtml"/>
 
@@ -40,9 +37,6 @@
                 name="loki.script.store"
                 class="Loki\Base\Block\LokiScript"
                 template="Loki_Base::script/script-container.phtml">
-                <arguments>
-                    <argument name="cache_lifetime" xsi:type="number">86400</argument>
-                </arguments>
 
                 <block name="loki.script.store.local-storage" template="Loki_Base::script/store/localstorage-store.phtml">
                     <arguments>
@@ -57,9 +51,6 @@
                 name="loki.script.directive"
                 class="Loki\Base\Block\LokiScript"
                 template="Loki_Base::script/script-container.phtml">
-                <arguments>
-                    <argument name="cache_lifetime" xsi:type="number">86400</argument>
-                </arguments>
 
                 <block name="loki.script.directive.autoremove" template="Loki_Base::script/directive/autoremove-directive.phtml"/>
             </block>
@@ -68,27 +59,18 @@
                 name="loki.script.component-partial"
                 class="Loki\Base\Block\LokiScript"
                 template="Loki_Base::script/script-container.phtml">
-                <arguments>
-                    <argument name="cache_lifetime" xsi:type="number">86400</argument>
-                </arguments>
             </block>
 
             <block
                 name="loki.script.component-type"
                 class="Loki\Base\Block\LokiScript"
                 template="Loki_Base::script/script-container.phtml">
-                <arguments>
-                    <argument name="cache_lifetime" xsi:type="number">86400</argument>
-                </arguments>
             </block>
 
             <block
                 name="loki.script.component"
                 class="Loki\Base\Block\LokiScript"
                 template="Loki_Base::script/script-container.phtml">
-                <arguments>
-                    <argument name="cache_lifetime" xsi:type="number">86400</argument>
-                </arguments>
 
                 <block name="loki.component.messages" template="Loki_Base::script/component/message-component.phtml">
                     <arguments>
