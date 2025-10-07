@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.4] - 07 October 2025
+### Fixed
+- Allow for JS translations of dates
+
 ## [1.1.3] - 30 September 2025
 ### Fixed
 - Use new LOKI_THEME_URL variable in JS
