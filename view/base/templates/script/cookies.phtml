@@ -50,8 +50,10 @@ $cookieConfig = $block->getCookieConfig();
         },
         remove(name) {
             let cookieParts = this.getCookieParts(name, 0);
+            cookieParts = cookieParts.filter(cookiePart => !cookiePart.startsWith('SameSite='));
             cookieParts = cookieParts.filter(cookiePart => !cookiePart.startsWith('domain='));
             cookieParts = cookieParts.filter(cookiePart => !cookiePart.startsWith('max-age='));
+            cookieParts = cookieParts.filter(cookiePart => !cookiePart.startsWith('secure'));
             cookieParts.push('max-age=-999999');
 
             document.cookie = cookieParts.join('; ');
