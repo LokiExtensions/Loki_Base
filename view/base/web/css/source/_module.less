@@ -1,4 +1,10 @@
 & when (@media-common = true) {
+    .page.messages {
+        position: sticky;
+        top: 10px;
+        z-index: 300;
+    }
+
     .loki-messages {
         button.close {
             position: absolute;
@@ -9,9 +15,9 @@
             background: none;
             border: none;
             width: 1.4rem;
-            height: 1.4rem;
+            height: auto;
             padding: 0;
-            fill: #656565;
+            opacity: 0.7;
         }
     }
 }
