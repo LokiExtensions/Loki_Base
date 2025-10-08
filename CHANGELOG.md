@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.5] - 08 October 2025
+### Fixed
+- Remove cookies by stripping all non-relevant cookie parts
+- Change messages to position:sticky in Luma
+
 ## [1.1.4] - 07 October 2025
 ### Fixed
 - Allow for JS translations of dates
