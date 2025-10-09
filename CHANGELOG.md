@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.6] - 09 October 2025
+### Fixed
+- Adjust messages under Luma from z-index:300 to 100 to prevent clash with minicart
+
 ## [1.1.5] - 08 October 2025
 ### Fixed
 - Remove cookies by stripping all non-relevant cookie parts
