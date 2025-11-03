@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.8] - 03 November 2025
+### Fixed
+- Change z-index for messages from 100 to 5
+- Update composer keywords
+
 ## [1.1.7] - 22 October 2025
 ### Fixed
 - Do not escape `$css()` with `escapeHtmlAttr()` but `escapeHtml()`
