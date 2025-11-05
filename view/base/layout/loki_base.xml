@@ -2,6 +2,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
+        <!--
         <referenceContainer name="page.messages">
             <block
                 name="loki.messages"
@@ -9,6 +10,7 @@
                 before="-">
             </block>
         </referenceContainer>
+        -->
 
         <referenceContainer name="before.body.end">
             <container name="loki.dynamic-script">
@@ -25,7 +27,9 @@
                 class="Loki\Base\Block\LokiScript"
                 template="Loki_Base::script/script-container.phtml">
 
+                <!--
                 <block name="loki.alpinejs" template="Loki_Base::script/alpine-csp.phtml"/>
+                -->
 
                 <block name="loki.script.cookies" template="Loki_Base::script/cookies.phtml">
                     <arguments>
@@ -39,6 +43,7 @@
                 class="Loki\Base\Block\LokiScript"
                 template="Loki_Base::script/script-container.phtml">
 
+                <!--
                 <block name="loki.script.store.local-storage" template="Loki_Base::script/store/localstorage-store.phtml">
                     <arguments>
                         <argument name="section_config" xsi:type="object">Loki\Base\ViewModel\SectionConfig</argument>
@@ -46,6 +51,7 @@
                 </block>
 
                 <block name="loki.script.store.messages" template="Loki_Base::script/store/message-store.phtml"/>
+                -->
             </block>
 
             <block
@@ -73,11 +79,13 @@
                 class="Loki\Base\Block\LokiScript"
                 template="Loki_Base::script/script-container.phtml">
 
+                <!--
                 <block name="loki.component.messages" template="Loki_Base::script/component/message-component.phtml">
                     <arguments>
                         <argument name="config" xsi:type="object">Loki\Base\Config\Config</argument>
                     </arguments>
                 </block>
+                -->
             </block>
         </referenceContainer>
     </body>
