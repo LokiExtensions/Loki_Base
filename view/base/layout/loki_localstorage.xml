@@ -6,6 +6,7 @@
             <block name="loki.script.store.local-storage" template="Loki_Base::script/store/localstorage-store.phtml">
                 <arguments>
                     <argument name="section_config" xsi:type="object">Loki\Base\ViewModel\SectionConfig</argument>
+                    <argument name="module_config" xsi:type="object">Loki\Base\ViewModel\ModuleConfig</argument>
                 </arguments>
             </block>
         </referenceBlock>
