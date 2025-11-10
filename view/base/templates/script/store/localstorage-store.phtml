@@ -1,19 +1,21 @@
 <?php
 declare(strict_types=1);
 
+use Loki\Base\ViewModel\ModuleConfig;
 use Loki\Base\ViewModel\SectionConfig;
 use Magento\Framework\View\Element\Template;
 
 /** @version 1.1.8 */
 /** @var Template $block */
 /** @var SectionConfig $sectionConfig */
-/** @var \Loki\Base\ViewModel\ModuleConfig $moduleConfig */
+/** @var ModuleConfig $moduleConfig */
+
+$moduleConfig = $block->getModuleConfig();
 if ($moduleConfig->isEnabled('MageOS_AlpineLocalStorage')) {
     return;
 }
 
 $sectionConfig = $block->getSectionConfig();
-$moduleConfig = $block->getModuleConfig();
 ?>
 <script>
     document.addEventListener('alpine:init', () => {
