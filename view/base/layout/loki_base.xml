@@ -1,6 +1,10 @@
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="loki_alpinejs"/>
+    <update handle="loki_localstorage"/>
+    <update handle="loki_messages"/>
+
     <body>
         <referenceContainer name="before.body.end">
             <container name="loki.dynamic-script">

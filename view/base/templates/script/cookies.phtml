@@ -13,7 +13,7 @@ use Magento\Framework\View\Element\Template;
 $cookieConfig = $block->getCookieConfig();
 ?>
 <script>
-    const LokiCookies = {
+    const MageCookies = {
         lifetime: <?= (int)$cookieConfig->getLifetime() ?>,
         domain: '<?= $escaper->escapeHtml($cookieConfig->getDomain()) ?>',
         path: '<?= $escaper->escapeHtml($cookieConfig->getPath()) ?>',
