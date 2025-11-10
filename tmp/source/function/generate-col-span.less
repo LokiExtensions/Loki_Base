@@ -1,8 +1,0 @@
-.generate-col-span(@from: 0; @to: 12; @step: 1; @prefix: ~'.') {
-    .-col-span-loop(@i) when (@i =< @to) {
-        @val: (@i * @step);
-        @{prefix}col-span-@{i} { grid-column: span @val / span @val; }
-        .-col-span-loop(@i + 1);
-    }
-    .-col-span-loop(@from);
-}

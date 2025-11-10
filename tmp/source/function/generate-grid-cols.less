@@ -1,9 +1,0 @@
-.generate-grid-cols(@from: 0; @to: 12; @step: 1; @prefix: ~'.') {
-    .-col-span-loop(@i) when (@i =< @to) {
-        @val: (@i * @step);
-        @suffix: if((@i = 0), '', ~"-@{i}");
-        @{prefix}grid-cols@{suffix} { grid-template-columns: repeat(@val, minmax(0, 1fr)); }
-        .-col-span-loop(@i + 1);
-    }
-    .-col-span-loop(@from);
-}
