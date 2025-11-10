@@ -24,6 +24,7 @@
                 <block name="loki.script.cookies" template="Loki_Base::script/cookies.phtml">
                     <arguments>
                         <argument name="cookie_config" xsi:type="object">Loki\Base\ViewModel\CookieConfig</argument>
+                        <argument name="module_config" xsi:type="object">Loki\Base\ViewModel\ModuleConfig</argument>
                     </arguments>
                 </block>
             </block>

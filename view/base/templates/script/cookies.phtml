@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use Loki\Base\ViewModel\CookieConfig;
+use Loki\Base\ViewModel\ModuleConfig;
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 
@@ -9,6 +10,12 @@ use Magento\Framework\View\Element\Template;
 /** @var Template $block */
 /** @var CookieConfig $cookieConfig */
 /** @var Escaper $escaper */
+/** @var ModuleConfig $moduleConfig */
+
+$moduleConfig = $block->getModuleConfig();
+if ($moduleConfig->isEnabled('MageOS_AlpineLocalStorage')) {
+    return;
+}
 
 $cookieConfig = $block->getCookieConfig();
 ?>
