@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="page.messages">
+            <block
+                name="loki.messages"
+                template="Loki_Base::component/messages.phtml"
+                before="-">
+            </block>
+        </referenceContainer>
+
+        <referenceBlock name="loki.script.store">
+            <block name="loki.script.store.messages" template="Loki_Base::script/store/message-store.phtml"/>
+        </referenceBlock>
+
+        <referenceBlock name="loki.script.component">
+            <block name="loki.component.messages" template="Loki_Base::script/component/message-component.phtml">
+                <arguments>
+                    <argument name="config" xsi:type="object">Loki\Base\Config\Config</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

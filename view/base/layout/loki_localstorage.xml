@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="loki.script.store">
+            <block name="loki.script.store.local-storage" template="Loki_Base::script/store/localstorage-store.phtml">
+                <arguments>
+                    <argument name="section_config" xsi:type="object">Loki\Base\ViewModel\SectionConfig</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>
