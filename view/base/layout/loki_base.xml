@@ -56,6 +56,7 @@
             </block>
 
             <block
+                after="-"
                 name="loki.script.component"
                 class="Loki\Base\Block\LokiScript"
                 template="Loki_Base::script/script-container.phtml">
