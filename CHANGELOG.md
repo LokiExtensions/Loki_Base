@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.9] - 12 November 2025
+### Fixed
+- Rename LokiMessageStore to Message
+- Only load MageCookies if `MageOS_AlpineLocalStorage` is not enabled
+- Fix wrong template variable
+- Rename LokiLocalStorage to LocalStorage
+- Check for duplicate `MageOS_AlpineLocalStorage`
+- Move layout that is duplicate to Mage-OS Alpine to separate handles
+- Remove temporarily Tailwind LESS attempt
+
 ## [1.1.8] - 03 November 2025
 ### Fixed
 - Change z-index for messages from 100 to 5
