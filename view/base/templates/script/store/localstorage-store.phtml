@@ -24,6 +24,14 @@ $sectionConfig = $block->getSectionConfig();
             sectionLifetime: <?= (int)$sectionConfig->getSectionDataLifeTime() * 60 ?>,
             data: {},
             init() {
+                document.addEventListener('localStorageUpdate', (event) => {
+                    if (event.detail.key !== this.key) {
+                        return;
+                    }
+
+                    this.data = event.detail.value;
+                })
+
                 const storedData = localStorage.getItem(this.key);
                 this.data = storedData ? JSON.parse(storedData) : {};
 
@@ -57,7 +65,7 @@ $sectionConfig = $block->getSectionConfig();
                 return Math.floor(Date.now() / 1000);
             },
             save() {
-                localStorage.setItem(this.key, JSON.stringify(this.data));
+                localStorage.setItem(this.key, JSON.stringify(this.data), true);
             },
             refresh(sections, forceNewSectionTimestamp) {
                 let url = new URL(LOKI_BASE_URL + '/customer/section/load');
@@ -117,4 +125,28 @@ $sectionConfig = $block->getSectionConfig();
             }
         });
     });
+
+    const originalLocalStorageSetItem = localStorage.setItem;
+    localStorage.setItem = function(key, value, skipEvent) {
+        if (!skipEvent) {
+            document.dispatchEvent(new CustomEvent('localStorageUpdate', {detail: {key, value}}));
+        }
+
+        originalLocalStorageSetItem.apply(this, [key, value]);
+    };
+
+    function localStorageTestMerge(additionalData) {
+        if (!additionalData || Object.keys(additionalData).length === 0) {
+            return;
+        }
+
+        const json = localStorage.getItem('mage-cache-storage');
+        if (!json) {
+            return;
+        }
+
+        const data  = JSON.parse(json);
+        const newData = Object.assign({}, data, additionalData);
+        localStorage.setItem('mage-cache-storage', JSON.stringify(newData));
+    }
 </script>
