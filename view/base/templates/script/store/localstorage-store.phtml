@@ -29,7 +29,7 @@ $sectionConfig = $block->getSectionConfig();
                         return;
                     }
 
-                    this.data = event.detail.value;
+                    this.data = JSON.parse(event.detail.value);
                 })
 
                 const storedData = localStorage.getItem(this.key);
