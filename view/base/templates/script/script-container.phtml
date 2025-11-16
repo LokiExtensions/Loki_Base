@@ -1,10 +1,13 @@
 <?php
 declare(strict_types=1);
 
+use Loki\Components\Util\Block\ChildRenderer;
 use Magento\Framework\View\Element\Template;
 
 /** @version 1.1.10 */
 /** @var Template $block */
+/** @var ChildRenderer $childRenderer */
+
 ?>
-<?= /* @noEscape */ $block->getChildHtml(); ?>
+<?= /* @noEscape */ $childRenderer->all($block); ?>
 
