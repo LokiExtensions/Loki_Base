@@ -1,11 +1,18 @@
 <?php declare(strict_types=1);
 
+use Loki\Base\ViewModel\ModuleConfig;
 use Magento\Framework\View\Element\Template;
 
 /** @version 1.1.10 */
 /** @var Template $block */
+/** @var ModuleConfig $moduleConfig */
 
 $jsUrl = $block->getViewFileUrl('Loki_Base::js/alpine-csp.js');
 $defer = (bool)$block->getDefer();
+$moduleConfig = $block->getModuleConfig();
+
+if ($moduleConfig->isEnabled('MageOS_AlpineLoader')) {
+    return;
+}
 ?>
 <script defer src="<?= /* @noEscape */ $jsUrl ?>" <?php if ($defer) : ?>defer<?php endif; ?>></script>

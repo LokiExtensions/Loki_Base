@@ -3,7 +3,11 @@
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceBlock name="loki.script">
-            <block name="loki.alpinejs" template="Loki_Base::script/alpine-csp.phtml"/>
+            <block name="loki.alpinejs" template="Loki_Base::script/alpine-csp.phtml">
+                <arguments>
+                    <argument name="module_config" xsi:type="object">Loki\Base\ViewModel\ModuleConfig</argument>
+                </arguments>
+            </block>
         </referenceBlock>
     </body>
 </page>
