@@ -21,7 +21,6 @@ if (false === is_numeric($timeout) || $timeout < 0) {
             timeout: <?= (int)$timeout ?>,
             init() {
                 Alpine.effect(() => {
-                    console.log('Fetching messages...');
                     this.messages = Alpine.store('Message').getMessages();
                 });
             },
