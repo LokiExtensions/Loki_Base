@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.11] - 21 November 2025
+### Fixed
+- Add compatibility with `MageOS_AlpineLoader`
+- Replace `$block->getChildHtml()` with `$childRenderer->all()` including better sorting
+- Automatically sync localStorage.setItem to Alpine store
+
 ## [1.1.10] - 12 November 2025
 ### Fixed
 - Make sure component scripts are loaded after all other scripts
