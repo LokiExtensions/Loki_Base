@@ -20,7 +20,7 @@ if (!is_numeric($mobileWidth) || $mobileWidth < 100) {
 }
 ?>
 <script>
-    var LOKI_BASE_URL = '<?= $escaper->escapeUrl($block->getBaseUrl()) ?>';
+    var BASE_URL = '<?= $escaper->escapeUrl($block->getBaseUrl()) ?>';
     var LOKI_LOCALE = '<?= $escaper->escapeUrl($localeCode->getCode()) ?>';
     var LOKI_THEME_URL = '<?= $escaper->escapeUrl($block->getViewFileUrl('')) ?>';
     var LOKI_FORM_KEY = '<?= $escaper->escapeHtml($formKeyValue->get()) ?>';
