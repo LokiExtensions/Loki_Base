@@ -6,6 +6,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.13] - 11 December 2025
+### Fixed
+- Move dependency ComponentViewModelInterface from `Loki_Base` to `Loki_Components`
+
+## [1.1.13] - 11 December 2025
+### Fixed
+- Move dependency ComponentViewModelInterface from `Loki_Base` to `Loki_Components`
+
+## [1.1.13] - 11 December 2025
+### Fixed
+- Move dependency ComponentViewModelInterface from `Loki_Base` to `Loki_Components`
+
+## [1.1.13] - 11 December 2025
+### Fixed
+- Move dependency ComponentViewModelInterface from `Loki_Base` to `Loki_Components`
+
 ## [1.1.12] - 11 December 2025
 ### Fixed
 - Rename LOKI_BASE_URL to BASE_URL
