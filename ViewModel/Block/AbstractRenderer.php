@@ -6,8 +6,6 @@ use Magento\Framework\App\State as AppState;
 use Magento\Framework\View\Element\AbstractBlock;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Framework\View\LayoutInterface;
-use Loki\Components\Component\ComponentViewModelInterface;
-use RuntimeException;
 
 abstract class AbstractRenderer implements ArgumentInterface
 {
@@ -20,18 +18,18 @@ abstract class AbstractRenderer implements ArgumentInterface
     ) {
     }
 
-    protected function populateBlock(
+    public function populateBlock(
         AbstractBlock $block,
         array $data = []
     ): void {
         $block->addData($data);
-        $block->setAncestorBlock($this->ancestorBlock);
+        $block->setAncestorBlock($this->getAncestorBlock());
         $block->setUniqId($this->getUniqId($block, $data));
+    }
 
-        $viewModel = $this->ancestorBlock->getViewModel();
-        if ($viewModel instanceof ComponentViewModelInterface) {
-            $block->setViewModel($viewModel);
-        }
+    public function getAncestorBlock(): ?AbstractBlock
+    {
+        return $this->ancestorBlock;
     }
 
     protected function getCounter(AbstractBlock $block): int
