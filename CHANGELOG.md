@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.14] - 19 December 2025
+### Fixed
+- Upgrade tests
+- Cleanup duplicates in CHANGELOG
+
 ## [1.1.13] - 11 December 2025
 ### Fixed
 - Move dependency ComponentViewModelInterface from `Loki_Base` to `Loki_Components`
