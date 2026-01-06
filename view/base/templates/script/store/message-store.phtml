@@ -1,10 +1,17 @@
 <?php
 declare(strict_types=1);
 
+use Loki\Base\ViewModel\ModuleConfig;
 use Magento\Framework\View\Element\Template;
 
 /** @version 1.1.14 */
 /** @var Template $block */
+/** @var ModuleConfig $moduleConfig */
+
+$moduleConfig = $block->getModuleConfig();
+if ($moduleConfig->isEnabled('MageOS_AlpineMessages')) {
+    return;
+}
 
 $fetchLocalStorage = !(bool)$block->getSkipLocalStorage();
 $fetchCookies = !(bool)$block->getSkipCookies();

@@ -7,17 +7,25 @@
                 name="loki.messages"
                 template="Loki_Base::component/messages.phtml"
                 before="-">
+                <arguments>
+                    <argument name="module_config" xsi:type="object">Loki\Base\ViewModel\ModuleConfig</argument>
+                </arguments>
             </block>
         </referenceContainer>
 
         <referenceBlock name="loki.script.store">
-            <block name="loki.script.store.messages" template="Loki_Base::script/store/message-store.phtml"/>
+            <block name="loki.script.store.messages" template="Loki_Base::script/store/message-store.phtml">
+                <arguments>
+                    <argument name="module_config" xsi:type="object">Loki\Base\ViewModel\ModuleConfig</argument>
+                </arguments>
+            </block>
         </referenceBlock>
 
         <referenceBlock name="loki.script.component">
             <block name="loki.component.messages" template="Loki_Base::script/component/message-component.phtml">
                 <arguments>
                     <argument name="config" xsi:type="object">Loki\Base\Config\Config</argument>
+                    <argument name="module_config" xsi:type="object">Loki\Base\ViewModel\ModuleConfig</argument>
                 </arguments>
             </block>
         </referenceBlock>

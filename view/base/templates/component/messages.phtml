@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 
+use Loki\Base\ViewModel\ModuleConfig;
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 use Loki\CssUtils\Util\CssClass;
@@ -8,6 +9,12 @@ use Loki\CssUtils\Util\CssClass;
 /** @var Template $block */
 /** @var Escaper $escaper */
 /** @var CssClass $css */
+/** @var ModuleConfig $moduleConfig */
+
+$moduleConfig = $block->getModuleConfig();
+if ($moduleConfig->isEnabled('MageOS_AlpineMessages')) {
+    return;
+}
 ?>
 <div
     class="<?= $escaper->escapeHtml($css('container mx-auto py-3')) ?>"
