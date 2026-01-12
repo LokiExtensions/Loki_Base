@@ -29,7 +29,6 @@ if (false === is_numeric($timeout) || $timeout < 0) {
             init() {
                 Alpine.effect(() => {
                     this.messages = Alpine.store('Message').getMessages();
-                    console.log('Foobar1 reading', JSON.parse(JSON.stringify(this.messages)));
                 });
             },
             hasMessages() {
