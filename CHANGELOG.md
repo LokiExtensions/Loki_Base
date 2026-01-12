@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.16] - 12 January 2026
+### Fixed
+- Remove debugging console log
+- Add new GitHub Action workflows
+- Copy generic CI/CD files
+- Copy generic CI/CD files
+
 ## [1.1.15] - 06 January 2026
 ### Fixed
 - Disable messages if MageOS_AlpineMessages is enabled
