@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.17] - 23 January 2026
+### Fixed
+- Prevent empty cookie from causing JS error
+
 ## [1.1.16] - 12 January 2026
 ### Fixed
 - Remove debugging console log
@@ -15,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.15] - 06 January 2026
 ### Fixed
-- Disable messages if MageOS_AlpineMessages is enabled
+- Disable messages if `MageOS_AlpineMessages` is enabled
 
 ## [1.1.14] - 19 December 2025
 ### Fixed
