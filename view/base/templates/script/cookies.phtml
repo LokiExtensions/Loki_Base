@@ -30,7 +30,9 @@ $cookieConfig = $block->getCookieConfig();
             const cookies = {};
             document.cookie.split(';').forEach(cookie => {
                 const parts = cookie.split('=');
-                const name = parts[0].trim();
+                const name = parts[0]?.trim();
+                if (!name || parts[1] === undefined) return;
+
                 let value = parts[1].trim();
 
                 value = decodeURIComponent(value);
