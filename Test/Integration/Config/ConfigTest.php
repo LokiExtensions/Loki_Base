@@ -9,21 +9,21 @@ use Loki\Base\Config\Config;
 
 class ConfigTest extends TestCase
 {
-    #[ConfigFixture('loki_base/messages/timeout', 0)]
+    #[ConfigFixture('loki_base/messages/timeout', 0, 'store', 'default')]
     public function testMessagesTimeoutWithEmptyValue()
     {
         $config = ObjectManager::getInstance()->get(Config::class);
         $this->assertSame(0, $config->getMessagesTimeout());
     }
 
-    #[ConfigFixture('loki_base/messages/timeout', 42)]
+    #[ConfigFixture('loki_base/messages/timeout', 42, 'store', 'default')]
     public function testMessagesTimeoutWithPositiveValue()
     {
         $config = ObjectManager::getInstance()->get(Config::class);
         $this->assertSame(42, $config->getMessagesTimeout());
     }
 
-    #[ConfigFixture('loki_base/messages/timeout', -42)]
+    #[ConfigFixture('loki_base/messages/timeout', -42, 'store', 'default')]
     public function testMessagesTimeoutWithNegativeValue()
     {
         $config = ObjectManager::getInstance()->get(Config::class);
