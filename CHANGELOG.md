@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.18] - 12 February 2026
+### Fixed
+- Allow PHP Config to read from current store level
+- Allow filtering of child blocks by prefix
+- Add ancestor block to children
+
 ## [1.1.17] - 23 January 2026
 ### Fixed
 - Prevent empty cookie from causing JS error
