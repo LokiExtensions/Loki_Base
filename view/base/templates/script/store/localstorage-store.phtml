@@ -67,7 +67,7 @@ $sectionConfig = $block->getSectionConfig();
             save() {
                 localStorage.setItem(this.key, JSON.stringify(this.data), true);
             },
-            refresh(sections, forceNewSectionTimestamp) {
+            async refresh(sections, forceNewSectionTimestamp) {
                 let url = new URL(BASE_URL + '/customer/section/load');
                 if (sections) {
                     url.searchParams.append('sections', sections);
@@ -79,22 +79,22 @@ $sectionConfig = $block->getSectionConfig();
                     url.searchParams.append('_', Math.floor(Date.now() / 1000));
                 }
 
-                fetch(url, {
+                const response = await fetch(url, {
                     headers: {
                         'X-Requested-With': 'XMLHttpRequest',
                     },
-                })
-                    .then((response) => {
-                        return response.json();
-                    })
-                    .then(newData => {
-                        if (typeof newData === 'object') {
-                            this.data = Object.assign(this.data, newData);
-                            this.save();
-                        }
-                    })
+                });
+
+                const newData = await response.json();
+
+                if (typeof newData === 'object') {
+                    this.data = Object.assign(this.data, newData);
+                    this.save();
+                }
+
+                return newData;
             },
-            get(key) {
+            async get(key) {
                 if (!this.data) {
                     return {};
                 }
@@ -104,7 +104,7 @@ $sectionConfig = $block->getSectionConfig();
                 }
 
                 if (!this.data[key] ) {
-                    this.refresh(key);
+                    this.data[key] = await this.refresh(key);
                 }
 
                 return this.data[key];
