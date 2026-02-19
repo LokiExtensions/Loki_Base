@@ -4,6 +4,7 @@ namespace Loki\Base\ViewModel\Block;
 
 use InvalidArgumentException;
 use Magento\Framework\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\Text;
 use RuntimeException;
 
 class ChildRenderer extends AbstractRenderer
@@ -16,22 +17,29 @@ class ChildRenderer extends AbstractRenderer
         $childNames = $parentBlock->getChildNames();
         $children = [];
 
+        $layout = $parentBlock->getLayout();
         foreach ($childNames as $childName) {
             if ($blockAliasPrefix && 0 !== strpos($childName, $blockAliasPrefix)) {
                 continue;
             }
 
-            $childBlock = $parentBlock->getLayout()->getBlock($childName);
-            if (false === $childBlock instanceof AbstractBlock) {
-                if ($this->isDeveloperMode()) {
-                    $html .= '<!-- WARNING: No child found "' . $childName
-                        . '" -->';
-                }
-
+            $childBlock = $layout->getBlock($childName);
+            if ($childBlock instanceof AbstractBlock) {
+                $children[] = $childBlock;
                 continue;
             }
 
-            $children[] = $childBlock;
+            $childHtml = $parentBlock->getChildHtml($childName);
+            if (!empty($childHtml)) {
+                $block = $layout->createBlock(Text::class);
+                $block->setText($childHtml);
+                $children[] = $block;
+                continue;
+            }
+
+            if ($this->isDeveloperMode()) {
+                $html .= '<!-- WARNING: No child found "' . $childName . '" -->';
+            }
         }
 
         $sortedChildren = $this->sortBlocks($children);
