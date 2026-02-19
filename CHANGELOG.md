@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.20] - 19 February 2026
+### Fixed
+- Better way of rendering containers via ChildRenderer::all()
+- Remove trailing slash from `customer/section/load` URL
+
 ## [1.1.19] - 16 February 2026
 ### Fixed
 - Make `Alpine.store('LocalStorage').get()` and `refresh()` asynchronous
