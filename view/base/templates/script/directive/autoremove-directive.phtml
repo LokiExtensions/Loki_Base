@@ -11,6 +11,10 @@ use Magento\Framework\View\Element\Template;
         Alpine.directive('autoremove', (el, { value, expression }, { evaluate }) => {
             if (expression) {
                 const timeout = evaluate(expression);
+                if (timeout < 1) {
+                    return;
+                }
+
                 const messageType = el.getAttribute('data-message-type');
                 const messageText = el.getAttribute('data-message-text');
                 setTimeout(() => {
