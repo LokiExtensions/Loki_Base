@@ -24,13 +24,14 @@ $fetchCookies = !(bool)$block->getSkipCookies();
             fetchCookies: <?= /* @noEscape */ $fetchLocalStorage ? 'true' : 'false' ?>,
             init() {
                 if (this.fetchLocalStorage) {
-                    Alpine.effect(async () => {
+                    // Listen for LocalStorage initialization and load messages once
+                    document.addEventListener('loki:init:localstorage-store', async () => {
                         const messageSection = await Alpine.store('LocalStorage').get('messages');
                         if (messageSection && messageSection.messages) {
                             this.messages = [...this.messages, ...messageSection.messages];
                             this.reset();
                         }
-                    });
+                    }, { once: true });
                 }
             },
             getMessages() {
@@ -63,8 +64,8 @@ $fetchCookies = !(bool)$block->getSkipCookies();
                     return !(message.type === type && message.text === text);
                 });
             },
-            saveMessage(type, text) {
-                const messages = this.getMessagesFromStore();
+            async saveMessage(type, text) {
+                const messages = await this.getMessagesFromStore();
                 messages.push({type, text});
                 this.setMessageInStore(messages);
             },
