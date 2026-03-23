@@ -2,6 +2,7 @@
 
 namespace Loki\Base\ViewModel\Block;
 
+use Loki\Components\Util\Block\TransferableAncestorBlockProperties;
 use Magento\Framework\App\State as AppState;
 use Magento\Framework\View\Element\AbstractBlock;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
@@ -15,13 +16,24 @@ abstract class AbstractRenderer implements ArgumentInterface
         protected LayoutInterface $layout,
         protected AppState $appState,
         protected ChildCounter $childCounter,
+        protected TransferableAncestorBlockProperties $transferableAncestorBlock
     ) {
     }
 
     public function populateBlock(
         AbstractBlock $block,
-        array $data = []
+        array $data = [],
+        ?AbstractBlock $ancestorBlock = null,
     ): void {
+        if ($ancestorBlock instanceof AbstractBlock) {
+            foreach ($this->transferableAncestorBlock->getProperties() as $propertyName) {
+                $propertyValue = $ancestorBlock->getData($propertyName);
+                if (!empty($propertyValue)) {
+                    $block->setData($propertyName, $propertyValue);
+                }
+            }
+        }
+
         $block->addData($data);
         $block->setAncestorBlock($this->getAncestorBlock());
         $block->setUniqId($this->getUniqId($block, $data));
