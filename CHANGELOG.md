@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.23] - 27 March 2026
+### Fixed
+- Allow properties of ancestor block to populate child block
+
 ## [1.1.22] - 02 March 2026
 ### Fixed
 - Fix infinite loop and page freeze caused by async Alpine.effect
