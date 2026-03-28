@@ -2,7 +2,7 @@
 
 namespace Loki\Base\ViewModel\Block;
 
-use Loki\Components\Util\Block\TransferableAncestorBlockProperties;
+use Loki\Base\Util\Block\TransferableAncestorBlockProperties;
 use Magento\Framework\App\State as AppState;
 use Magento\Framework\View\Element\AbstractBlock;
 use Magento\Framework\View\Element\Block\ArgumentInterface;

@@ -12,4 +12,12 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="Loki\Base\Util\Block\TransferableAncestorBlockProperties">
+        <arguments>
+            <argument name="properties" xsi:type="array">
+                <item name="css_classes" xsi:type="string">css_classes</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
