@@ -25,5 +25,15 @@
         "functional": 0
     },
     "phpcs_severity": "8",
-    "phpstan_level": "1"
+    "phpstan_level": "1",
+    "module_name": "Loki_Base",
+    "composer_name": "loki/magento2-base",
+    "php_versions": [
+        "8.1",
+        "8.2",
+        "8.3",
+        "8.4"
+    ],
+    "skip_magento_versions": [],
+    "skip_css_utils": false
 }
