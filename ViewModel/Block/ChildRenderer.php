@@ -44,9 +44,16 @@ class ChildRenderer extends AbstractRenderer
 
         $sortedChildren = $this->sortBlocks($children);
 
+        $i = 1;
         foreach ($sortedChildren as $sortedChild) {
             $sortedChild->setAncestorBlock($parentBlock);
+            $sortedChild->setSortOrder($i);
+
+            $cssStyles = (array)$sortedChild->getCssStyles();
+            $cssStyles['--loki-sort-order'] = $i;
+            $sortedChild->setCssStyles($cssStyles);
             $html .= $sortedChild->toHtml();
+            $i++;
         }
 
         return $html;
