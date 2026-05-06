@@ -1,6 +1,6 @@
 {
     "name": "loki/magento2-base",
-    "version": "1.1.26",
+    "version": "1.1.27",
     "description": "Base utilities for any Loki behaviour",
     "license": "OSL-3.0",
     "type": "magento2-module",
