@@ -68,7 +68,7 @@ class ChildRenderer extends AbstractRenderer
                     '<%s%s data-child-name="%s">',
                     $matches[1],
                     $matches[2],
-                    htmlspecialchars($blockAlias, ENT_QUOTES, 'UTF-8')
+                    $blockAlias
                 );
             },
             $blockHtml,
