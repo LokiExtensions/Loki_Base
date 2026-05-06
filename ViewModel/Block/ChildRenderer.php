@@ -45,11 +45,35 @@ class ChildRenderer extends AbstractRenderer
         $sortedChildren = $this->sortBlocks($children);
 
         foreach ($sortedChildren as $sortedChild) {
+            $sortedChildAlias = $layout->getElementAlias($sortedChild->getNameInLayout());
             $sortedChild->setAncestorBlock($parentBlock);
-            $html .= $sortedChild->toHtml();
+            $sortedChildHtml = $sortedChild->toHtml();
+            $sortedChildHtml = $this->appendBlockAliasToBlockHtml($sortedChildHtml, $sortedChildAlias);
+            $html .= $sortedChildHtml."\n";
         }
 
         return $html;
+    }
+
+    private function appendBlockAliasToBlockHtml(string $blockHtml, string $blockAlias): string
+    {
+        if (trim($blockHtml) === '') {
+            return $blockHtml;
+        }
+
+        return preg_replace_callback(
+            '/<([a-zA-Z][a-zA-Z0-9:-]*)([^>]*)>/',
+            static function (array $matches) use ($blockAlias): string {
+                return sprintf(
+                    '<%s%s data-child-name="%s">',
+                    $matches[1],
+                    $matches[2],
+                    htmlspecialchars($blockAlias, ENT_QUOTES, 'UTF-8')
+                );
+            },
+            $blockHtml,
+            1
+        );
     }
 
     public function get(
