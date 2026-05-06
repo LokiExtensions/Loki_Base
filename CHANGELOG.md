@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.26] - 06 May 2026
+### Fixed
+- Add `data-child-name` attribute to blocks rendered via ChildRenderer
+
 ## [1.1.25] - 06 May 2026
 ### Fixed
 - Do not reset sortOrder because of other mechanisms using previous values
