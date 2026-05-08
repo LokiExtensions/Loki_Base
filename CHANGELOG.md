@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.28] - 08 May 2026
+### Fixed
+- Fix bug in Alpine localStorage when it is out of sync
+
 ## [1.1.27] - 06 May 2026
 ### Fixed
 - Move data-child-name attribute to LokiCheckout_Core observer
