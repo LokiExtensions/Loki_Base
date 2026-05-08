@@ -91,8 +91,6 @@ $sectionConfig = $block->getSectionConfig();
                     this.data = Object.assign(this.data, newData);
                     this.save();
                 }
-
-                return newData;
             },
             async get(key) {
                 if (!this.data) {
@@ -104,7 +102,7 @@ $sectionConfig = $block->getSectionConfig();
                 }
 
                 if (!this.data[key] ) {
-                    this.data[key] = await this.refresh(key);
+                    await this.refresh(key);
                 }
 
                 return this.data[key];
