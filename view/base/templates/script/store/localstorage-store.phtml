@@ -21,8 +21,10 @@ $sectionConfig = $block->getSectionConfig();
     document.addEventListener('alpine:init', () => {
         Alpine.store('LocalStorage', {
             key: 'mage-cache-storage',
-            sectionLifetime: <?= (int)$sectionConfig->getSectionDataLifeTime() * 60 ?>,
+            sectionLifetime: <?= (int)$sectionConfig->getSectionDataLifeTime()
+            * 60 ?>,
             data: {},
+            refreshPromises: {},
             init() {
                 document.addEventListener('localStorageUpdate', (event) => {
                     if (event.detail.key !== this.key) {
@@ -68,28 +70,44 @@ $sectionConfig = $block->getSectionConfig();
                 localStorage.setItem(this.key, JSON.stringify(this.data), true);
             },
             async refresh(sections, forceNewSectionTimestamp) {
-                let url = new URL(BASE_URL + 'customer/section/load');
-                if (sections) {
-                    url.searchParams.append('sections', sections);
+                const promiseKey = sections || '__all__';
+                if (this.refreshPromises[promiseKey]) {
+                    return this.refreshPromises[promiseKey];
                 }
 
-                forceNewSectionTimestamp = !!forceNewSectionTimestamp;
-                if (forceNewSectionTimestamp) {
-                    url.searchParams.append('force_new_section_timestamp', 'true');
-                    url.searchParams.append('_', Math.floor(Date.now() / 1000));
-                }
+                this.refreshPromises[promiseKey] = (async () => {
 
-                const response = await fetch(url, {
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                    },
-                });
+                    let url = new URL(BASE_URL + 'customer/section/load');
+                    if (sections) {
+                        url.searchParams.append('sections', sections);
+                    }
 
-                const newData = await response.json();
+                    forceNewSectionTimestamp = !!forceNewSectionTimestamp;
+                    if (forceNewSectionTimestamp) {
+                        url.searchParams.append('force_new_section_timestamp', 'true');
+                        url.searchParams.append('_', Math.floor(Date.now() / 1000));
+                    }
 
-                if (typeof newData === 'object') {
-                    this.data = Object.assign(this.data, newData);
-                    this.save();
+                    const response = await fetch(url, {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                        },
+                    });
+
+                    const newData = await response.json();
+
+                    if (typeof newData === 'object') {
+                        this.data = Object.assign(Alpine.raw(this.data), newData);
+                        this.save();
+                    }
+
+                    return newData;
+                })();
+
+                try {
+                    return await this.refreshPromises[promiseKey];
+                } finally {
+                    delete this.refreshPromises[promiseKey];
                 }
             },
             async get(key) {
@@ -101,7 +119,7 @@ $sectionConfig = $block->getSectionConfig();
                     return this.data;
                 }
 
-                if (!this.data[key] ) {
+                if (!this.data[key]) {
                     await this.refresh(key);
                 }
 
@@ -125,9 +143,14 @@ $sectionConfig = $block->getSectionConfig();
     });
 
     const originalLocalStorageSetItem = localStorage.setItem;
-    localStorage.setItem = function(key, value, skipEvent) {
+    localStorage.setItem = function (key, value, skipEvent) {
         if (!skipEvent) {
-            document.dispatchEvent(new CustomEvent('localStorageUpdate', {detail: {key, value}}));
+            document.dispatchEvent(new CustomEvent('localStorageUpdate', {
+                detail: {
+                    key,
+                    value
+                }
+            }));
         }
 
         originalLocalStorageSetItem.apply(this, [key, value]);
@@ -143,7 +166,7 @@ $sectionConfig = $block->getSectionConfig();
             return;
         }
 
-        const data  = JSON.parse(json);
+        const data = JSON.parse(json);
         const newData = Object.assign({}, data, additionalData);
         localStorage.setItem('mage-cache-storage', JSON.stringify(newData));
     }
