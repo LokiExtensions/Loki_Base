@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.29] - 21 May 2026
+### Fixed
+- Make sure multiple calls to `refresh()` do not trigger multiple AJAX calls
+
 ## [1.1.28] - 08 May 2026
 ### Fixed
 - Fix bug in Alpine localStorage when it is out of sync
