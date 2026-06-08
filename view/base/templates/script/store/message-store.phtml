@@ -24,7 +24,6 @@ $fetchCookies = !(bool)$block->getSkipCookies();
             fetchCookies: <?= /* @noEscape */ $fetchLocalStorage ? 'true' : 'false' ?>,
             init() {
                 if (this.fetchLocalStorage) {
-                    // Listen for LocalStorage initialization and load messages once
                     document.addEventListener('loki:init:localstorage-store', async () => {
                         const messageSection = await Alpine.store('LocalStorage').get('messages');
                         if (messageSection && messageSection.messages) {
