@@ -27,7 +27,7 @@ if ($moduleConfig->isEnabled('MageOS_AlpineMessages')) {
             @keyup.escape.window="removeMessage"
             x-autoremove="timeout"
             class="<?= $escaper->escapeHtml($css('message', 'message')) ?>"
-            :class="message.type">
+            :class="getMessageCss">
             <div
                 class="<?= $escaper->escapeHtml($css('inline-block', 'message-text')) ?>"
                 x-html="message.text"

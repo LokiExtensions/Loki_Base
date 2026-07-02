@@ -39,6 +39,10 @@ if (false === is_numeric($timeout) || $timeout < 0) {
                 const text = this.$el.getAttribute('data-message-text');
                 Alpine.store('Message').removeMessage(type, text);
             },
+            getMessageCss() {
+                const type = this.$el.getAttribute('data-message-type');
+                return 'message-' + type + ' ' + type;
+            }
         }));
     });
 </script>
