@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 06 August 2026
+### Fixed
+- Add new container `loki.script.post`
+- Add message CSS class that is compatible with admin panel
+
 ## [1.1.29] - 21 May 2026
 ### Fixed
 - Make sure multiple calls to `refresh()` do not trigger multiple AJAX calls
@@ -16,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.27] - 06 May 2026
 ### Fixed
-- Move data-child-name attribute to LokiCheckout_Core observer
+- Move data-child-name attribute to `LokiCheckout_Core` observer
 
 ## [1.1.26] - 06 May 2026
 ### Fixed
