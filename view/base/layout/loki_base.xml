@@ -61,6 +61,13 @@
                 class="Loki\Base\Block\LokiScript"
                 template="Loki_Base::script/script-container.phtml">
             </block>
+
+            <block
+                after="-"
+                name="loki.script.post"
+                class="Loki\Base\Block\LokiScript"
+                template="Loki_Base::script/script-container.phtml">
+            </block>
         </referenceContainer>
     </body>
 </page>
