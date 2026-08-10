@@ -31,6 +31,7 @@ class ChildRenderer extends AbstractRenderer
 
             $childHtml = $parentBlock->getChildHtml($childName);
             if (!empty($childHtml)) {
+                /** @var Text $block */
                 $block = $layout->createBlock(Text::class);
                 $block->setText($childHtml);
                 $children[] = $block;
