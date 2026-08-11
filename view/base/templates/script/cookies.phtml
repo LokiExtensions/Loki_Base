@@ -38,7 +38,11 @@ $cookieConfig = $block->getCookieConfig();
                 value = decodeURIComponent(value);
 
                 if (value.startsWith('[') || value.startsWith('{')) {
-                    value = JSON.parse(value);
+                    try {
+                        value = JSON.parse(value);
+                    } catch (e) {
+                        // Foreign non-JSON cookie (e.g. Adobe Analytics s_sq="[[B]]") — keep raw string.
+                    }
                 }
 
                 cookies[name] = value;
