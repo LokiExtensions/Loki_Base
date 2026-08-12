@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.2] - 12 August 2026
+### Fixed
+- Rename `alpine-csp.js` to `alpine-csp.min.js` to avoid `jshrink` issue
+- Add Loki icon to store configuration
+- Change `Text` factory to constructor method
+- Guard `MageCookies.getAll()` against non-JSON cookies @Maksold
+
 ## [1.2.1] - 08 August 2026
 ### Security
 - Rewrite `x-html` to `x-text` because of CSP
