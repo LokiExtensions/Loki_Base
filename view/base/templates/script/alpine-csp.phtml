@@ -7,7 +7,7 @@ use Magento\Framework\View\Element\Template;
 /** @var Template $block */
 /** @var ModuleConfig $moduleConfig */
 
-$jsUrl = $block->getViewFileUrl('Loki_Base::js/alpine-csp.js');
+$jsUrl = $block->getViewFileUrl('Loki_Base::js/alpine-csp.min.js');
 $defer = (bool)$block->getDefer();
 $moduleConfig = $block->getModuleConfig();
 
