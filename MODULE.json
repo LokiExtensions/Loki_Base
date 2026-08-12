@@ -7,6 +7,7 @@
     "modules": [
         "Loki_CssUtils",
         "Magento_Backend",
+        "Magento_Csp",
         "Magento_Directory",
         "Magento_Store",
         "Magento_Theme"
