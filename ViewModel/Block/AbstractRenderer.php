@@ -73,6 +73,11 @@ abstract class AbstractRenderer implements ArgumentInterface
 
     protected function setNameInLayout(AbstractBlock $block): void
     {
+        $currentName = $block->getNameInLayout();
+        if ($currentName) {
+            return;
+        }
+
         $alias = $this->getBlockAlias($block);
         $block->setNameInLayout(
             $this->ancestorBlock->getNameInLayout() . '.' . $alias
