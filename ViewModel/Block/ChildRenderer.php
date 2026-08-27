@@ -78,14 +78,27 @@ class ChildRenderer extends AbstractRenderer
         return $block;
     }
 
+    public function any(
+        AbstractBlock $ancestorBlock,
+        string $groupName
+    ): string
+    {
+        $html = $this->html($ancestorBlock, $groupName);
+
+        foreach ($ancestorBlock->getGroupChildNames($groupName) as $childName) {
+            $html .= $ancestorBlock->getChildHtml($childName);
+        }
+
+        return $html;
+    }
+
     public function html(
         AbstractBlock $ancestorBlock,
         string $blockAlias,
         array $data = []
-    ) {
+    ): string {
         try {
-            return (string)$this->get($ancestorBlock, $blockAlias, $data)
-                ->toHtml();
+            return (string)$this->get($ancestorBlock, $blockAlias, $data)->toHtml();
         } catch (RuntimeException|InvalidArgumentException $e) {
             if ($this->isDeveloperMode()) {
                 return '<!-- WARNING: ' . $e->getMessage() . ' -->';
