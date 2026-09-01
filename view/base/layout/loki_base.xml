@@ -41,6 +41,7 @@
                 template="Loki_Base::script/script-container.phtml">
 
                 <block name="loki.script.directive.autoremove" template="Loki_Base::script/directive/autoremove-directive.phtml"/>
+                <block name="loki.script.directive.safehtml" template="Loki_Base::script/directive/safehtml-directive.phtml"/>
             </block>
 
             <block

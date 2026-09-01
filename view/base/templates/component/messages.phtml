@@ -30,7 +30,7 @@ if ($moduleConfig->isEnabled('MageOS_AlpineMessages')) {
             :class="getMessageCss">
             <div
                 class="<?= $escaper->escapeHtml($css('inline-block', 'message-text')) ?>"
-                x-text="message.text"
+                x-safe-html="message.text"
             ></div>
             <button
                 :data-message-type="message.type"
