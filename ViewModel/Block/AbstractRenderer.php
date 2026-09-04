@@ -11,6 +11,7 @@ use Magento\Framework\View\LayoutInterface;
 abstract class AbstractRenderer implements ArgumentInterface
 {
     protected ?AbstractBlock $ancestorBlock = null;
+    protected ?ArgumentInterface $ancestorViewModel = null;
 
     public function __construct(
         protected LayoutInterface $layout,
@@ -36,7 +37,24 @@ abstract class AbstractRenderer implements ArgumentInterface
 
         $block->addData($data);
         $block->setAncestorBlock($this->getAncestorBlock());
+        $block->setAncestorViewModel($this->getAncestorViewModel());
         $block->setUniqId($this->getUniqId($block, $data));
+    }
+
+    public function getAncestorViewModel(): ?ArgumentInterface
+    {
+        if ($this->ancestorViewModel instanceof ArgumentInterface) {
+            return $this->ancestorViewModel;
+        }
+
+        if ($this->ancestorBlock instanceof AbstractBlock) {
+            $viewModel = $this->ancestorBlock->getViewModel();
+            if ($viewModel instanceof ArgumentInterface) {
+                return $viewModel;
+            }
+        }
+
+        return null;
     }
 
     public function getAncestorBlock(): ?AbstractBlock
