@@ -236,7 +236,7 @@ jobs:
             bin/magento setup:upgrade
             bin/magento config:set dev/static/sign 0
             bin/magento setup:static-content:deploy -f --area frontend en_US
-            bin/magento loki:modules:dump
+            bin/magento loki:functional-tests:modules:dump
             bin/magento config:set loki/functional_tests/token loki
           '
 
