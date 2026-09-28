@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Fixed
+- ACL resource `Loki_Base::config` is now nested under Stores > Configuration instead of sitting at the top level next to `Magento_Backend::admin`, which broke integration ACL resolution and hid it from restricted admin roles
 - `MageCookies.getAll()` no longer truncates cookie values containing `=` (e.g. Cookiebot `CookieConsent`)
 - Playwright test no longer depends on a checkout or catalog product (fails in CI)
 - `script-container.phtml` fatal "Undefined variable $childRenderer" when `Loki_Components` is not installed: `LokiScript` now assigns its own `ChildRenderer`
