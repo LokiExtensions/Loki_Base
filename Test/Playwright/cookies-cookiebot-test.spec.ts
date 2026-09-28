@@ -1,6 +1,5 @@
-import {setupCheckout} from '@loki/setup-checkout';
+import {openTestPage} from '@loki/open-test-page';
 import {test, expect} from '@loki/test';
-import coreConfig from '@loki/config';
 
 declare const MageCookies: {get: (name: string) => unknown};
 
@@ -18,7 +17,7 @@ test.describe('MageCookies with a Cookiebot CookieConsent cookie', () => {
             url: baseURL,
         }]);
 
-        await setupCheckout(page, context, coreConfig);
+        await openTestPage(page, ['loki_base']);
 
         const value = await page.evaluate(() => MageCookies.get('CookieConsent'));
 

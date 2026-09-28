@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Fixed
 - `MageCookies.getAll()` no longer truncates cookie values containing `=` (e.g. Cookiebot `CookieConsent`)
+- Playwright test no longer depends on a checkout or catalog product (fails in CI)
+- `script-container.phtml` fatal "Undefined variable $childRenderer" when `Loki_Components` is not installed: `LokiScript` now assigns its own `ChildRenderer`
 
 ## [1.3.0] - 28 August 2026
 ### Fixed
