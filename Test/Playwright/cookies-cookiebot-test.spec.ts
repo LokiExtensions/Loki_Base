@@ -8,6 +8,10 @@ const COOKIEBOT_CONSENT_RAW = "{stamp:%27LFiG8dNaLUSwTIS2syari25dArIUWAd/Whq5tPT
 
 test.describe('MageCookies with a Cookiebot CookieConsent cookie', () => {
     test('should return the full CookieConsent value', async ({page, context, baseURL}) => {
+        if (!baseURL) {
+            throw new Error('baseURL is not set: define TEST_URL (e.g. in <magento-root>/.env.playwright)');
+        }
+
         await context.addCookies([{
             name: 'CookieConsent',
             value: COOKIEBOT_CONSENT_RAW,

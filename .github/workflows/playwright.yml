@@ -273,8 +273,8 @@ jobs:
           npm install
           npx playwright install chromium
 
-          echo "Creating .env file..."
-          printf "TEST_URL=http://php:8888/\nTEST_TOKEN=loki\n" > .env
+          echo "Creating /tmp/magento/.env.playwright file..."
+          printf "TEST_URL=http://php:8888/\nTEST_TOKEN=loki\nMODULE_NAME=${MAGENTO_MODULE}\n" > /tmp/magento/.env.playwright
 
           echo "Running Playwright tests for project ${MAGENTO_MODULE}"
           CI=true TEST_TOKEN=loki MAGENTO_ROOT=/tmp/magento npx playwright test --project=${MAGENTO_MODULE}
