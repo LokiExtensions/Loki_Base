@@ -10,6 +10,8 @@ use Loki\Base\ViewModel\FormKeyValue;
 use Loki\Base\ViewModel\LocaleCode;
 use Loki\Base\ViewModel\ModuleConfig;
 use Loki\Base\ViewModel\SectionConfig;
+use Magento\Framework\View\Element\AbstractBlock;
+use Magento\Framework\View\LayoutInterface;
 use Magento\TestFramework\Fixture\AppArea;
 use Magento\TestFramework\Fixture\AppIsolation;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -80,18 +82,18 @@ class LokiBaseHandleTest extends TestCase
     {
         $layout = $this->loadLayout(['default', 'loki_base']);
 
-        $variablesBlock = $layout->getBlock('loki.dynamic-script.variables');
+        $variablesBlock = $this->getBlock($layout, 'loki.dynamic-script.variables');
         $this->assertInstanceOf(FormKeyValue::class, $variablesBlock->getFormKeyValue());
         $this->assertInstanceOf(LocaleCode::class, $variablesBlock->getLocaleCode());
 
-        $cookiesBlock = $layout->getBlock('loki.script.cookies');
+        $cookiesBlock = $this->getBlock($layout, 'loki.script.cookies');
         $this->assertInstanceOf(CookieConfig::class, $cookiesBlock->getCookieConfig());
         $this->assertInstanceOf(ModuleConfig::class, $cookiesBlock->getModuleConfig());
 
-        $localStorageBlock = $layout->getBlock('loki.script.store.local-storage');
+        $localStorageBlock = $this->getBlock($layout, 'loki.script.store.local-storage');
         $this->assertInstanceOf(SectionConfig::class, $localStorageBlock->getSectionConfig());
 
-        $messageComponentBlock = $layout->getBlock('loki.component.messages');
+        $messageComponentBlock = $this->getBlock($layout, 'loki.component.messages');
         $this->assertInstanceOf(Config::class, $messageComponentBlock->getConfig());
     }
 
@@ -99,7 +101,7 @@ class LokiBaseHandleTest extends TestCase
     public function testMessageStoreDoesNotSkipAnythingWithoutHyvaHandle(): void
     {
         $layout = $this->loadLayout(['default', 'loki_base']);
-        $block = $layout->getBlock('loki.script.store.messages');
+        $block = $this->getBlock($layout, 'loki.script.store.messages');
 
         $this->assertEmpty($block->getSkipLocalStorage());
         $this->assertEmpty($block->getSkipCookies());
@@ -109,7 +111,7 @@ class LokiBaseHandleTest extends TestCase
     public function testHyvaHandleSkipsLocalStorageAndCookiesInMessageStore(): void
     {
         $layout = $this->loadLayout(['default', 'loki_base', 'hyva_loki_base']);
-        $block = $layout->getBlock('loki.script.store.messages');
+        $block = $this->getBlock($layout, 'loki.script.store.messages');
 
         $this->assertTrue($block->getSkipLocalStorage());
         $this->assertTrue($block->getSkipCookies());
@@ -143,5 +145,13 @@ class LokiBaseHandleTest extends TestCase
         $this->assertStringContainsString("Alpine.directive('autoremove'", $html);
         $this->assertStringContainsString("Alpine.directive('safe-html'", $html);
         $this->assertStringContainsString("Alpine.data('LokiMessagesComponent'", $html);
+    }
+
+    private function getBlock(LayoutInterface $layout, string $name): AbstractBlock
+    {
+        $block = $layout->getBlock($name);
+        $this->assertInstanceOf(AbstractBlock::class, $block, 'Block "' . $name . '" not found');
+
+        return $block;
     }
 }

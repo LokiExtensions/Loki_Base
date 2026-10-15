@@ -163,7 +163,9 @@ class ChildRendererTest extends TestCase
         $layout = $this->createLayout();
         $parentBlock = $this->createParentBlock($layout, ['css_classes' => ['foo'], 'other' => 'bar']);
         $childBlock = $this->addTextChild($layout, 'foo', 'Foo');
+        /** @var Template $emptyParentBlock */
         $emptyParentBlock = $layout->createBlock(Template::class, 'loki.empty_parent', ['data' => ['css_classes' => []]]);
+        /** @var Text $otherChildBlock */
         $otherChildBlock = $layout->createBlock(Text::class, 'loki.empty_parent.foo', ['data' => ['css_classes' => ['own']]]);
 
         $childRenderer = $this->getChildRenderer();
@@ -179,6 +181,7 @@ class ChildRendererTest extends TestCase
     public function testPopulateBlockWithoutAncestorBlock(): void
     {
         $layout = $this->createLayout();
+        /** @var Text $block */
         $block = $layout->createBlock(Text::class, 'loki.some.block');
 
         $this->getChildRenderer()->populateBlock($block, ['foo' => 'bar']);
