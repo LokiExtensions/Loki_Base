@@ -92,7 +92,7 @@ abstract class AbstractRenderer implements ArgumentInterface
     protected function setNameInLayout(AbstractBlock $block): void
     {
         $currentName = $block->getNameInLayout();
-        if ($currentName) {
+        if ($currentName || false === $this->ancestorBlock instanceof AbstractBlock) {
             return;
         }
 
@@ -104,15 +104,19 @@ abstract class AbstractRenderer implements ArgumentInterface
 
     protected function getUniqId(AbstractBlock $block, array $data = []): string
     {
-        $ancestorId = preg_replace('/([^a-zA-Z0-9\-]+)/', '-', $this->ancestorBlock->getNameInLayout());
-
         if (isset($data['uniq'])) {
             $uniq = preg_replace('/([^a-zA-Z0-9\-]+)/', '-', $data['uniq']);
-            return $ancestorId . '-' . $uniq;
+        } else {
+            $blockParts = explode('.', (string)$block->getNameInLayout());
+            $uniq = array_pop($blockParts);
         }
 
-        $blockParts = explode('.', $block->getNameInLayout());
-        return $ancestorId . '-' . array_pop($blockParts);
+        if (false === $this->ancestorBlock instanceof AbstractBlock) {
+            return $uniq;
+        }
+
+        $ancestorId = preg_replace('/([^a-zA-Z0-9\-]+)/', '-', $this->ancestorBlock->getNameInLayout());
+        return $ancestorId . '-' . $uniq;
     }
 
     protected function isDeveloperMode(): bool
