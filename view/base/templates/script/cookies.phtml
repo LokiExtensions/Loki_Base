@@ -6,7 +6,7 @@ use Loki\Base\ViewModel\ModuleConfig;
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 
-/** @version 1.3.2 */
+/** @version 1.3.3 */
 /** @var Template $block */
 /** @var CookieConfig $cookieConfig */
 /** @var Escaper $escaper */
@@ -25,6 +25,7 @@ $cookieConfig = $block->getCookieConfig();
         domain: '<?= $escaper->escapeHtml($cookieConfig->getDomain()) ?>',
         path: '<?= $escaper->escapeHtml($cookieConfig->getPath()) ?>',
         httpOnly: <?= (int)$cookieConfig->isHttpOnly() ?>,
+        secure: <?= (int)$cookieConfig->isSecure() ?>,
         sameSite: '<?=  $escaper->escapeHtml($cookieConfig->getSameSite()) ?>',
         getAll() {
             const cookies = {};
@@ -93,7 +94,7 @@ $cookieConfig = $block->getCookieConfig();
                 cookieParts.push('domain=' + this.domain);
             }
 
-            if (this.httpOnly) {
+            if (this.secure || window.location.protocol === 'https:') {
                 cookieParts.push('secure');
             }
 

@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `MageCookies.remove()` did not remove cookies set with a cookie domain (the default, when no domain is configured Magento uses the current host)
 - Loki Alpine.js was loaded a second time on Hyvä pages with only `Loki_Base`, breaking the Alpine components of the theme
 - `AbstractRenderer::populateBlock()` fatal when no ancestor block was set
+- `MageCookies.set()` added the `secure` flag based on the HttpOnly setting, so browsers silently dropped every cookie on non-HTTPS pages. The `secure` flag is now only added on secure connections
 
 ### Added
 - Unit tests, integration tests and Playwright tests (for both Luma and Hyvä)

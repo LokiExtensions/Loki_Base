@@ -93,6 +93,7 @@ class TemplateRenderingTest extends TestCase
         $sessionConfig->method('getCookieDomain')->willReturn('example.com');
         $sessionConfig->method('getCookiePath')->willReturn('/');
         $sessionConfig->method('getCookieHttpOnly')->willReturn(true);
+        $sessionConfig->method('getCookieSecure')->willReturn(false);
 
         $html = $this->renderTemplate('Loki_Base::script/cookies.phtml', [
             'cookie_config' => new CookieConfig($sessionConfig),
@@ -104,6 +105,7 @@ class TemplateRenderingTest extends TestCase
         $this->assertStringContainsString("domain: '.example.com',", $html);
         $this->assertStringContainsString("path: '/',", $html);
         $this->assertStringContainsString('httpOnly: 1,', $html);
+        $this->assertStringContainsString('secure: 0,', $html);
         $this->assertStringContainsString("sameSite: 'Lax',", $html);
     }
 

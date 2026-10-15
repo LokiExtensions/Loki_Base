@@ -37,6 +37,14 @@ for (const theme of THEMES) {
             expect(value).toEqual({foo: 'bar', list: [1, 2]});
         });
 
+        test('should only add the secure flag on a secure connection', async ({page, context, baseURL}) => {
+            await page.evaluate(() => MageCookies.set('loki_test_secure', 'foobar'));
+
+            const cookie = (await context.cookies(baseURL as string)).find(c => c.name === 'loki_test_secure');
+            expect(cookie, 'Cookie set via MageCookies.set()').toBeDefined();
+            expect(cookie?.secure).toBe(new URL(baseURL as string).protocol === 'https:');
+        });
+
         test('should keep a foreign non-JSON cookie as raw string', async ({page, context, baseURL}) => {
             await context.addCookies([{name: 's_sq', value: '[[B]]', url: baseURL as string}]);
 

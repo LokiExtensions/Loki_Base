@@ -63,6 +63,25 @@ class CookieConfigTest extends TestCase
         ];
     }
 
+    #[DataProvider('getSecureData')]
+    public function testIsSecure(mixed $secure, int $expected): void
+    {
+        $sessionConfig = $this->createMock(SessionConfig::class);
+        $sessionConfig->method('getCookieSecure')->willReturn($secure);
+
+        $this->assertSame($expected, (new CookieConfig($sessionConfig))->isSecure());
+    }
+
+    public static function getSecureData(): array
+    {
+        return [
+            [true, 1],
+            [false, 0],
+            ['1', 1],
+            [null, 0],
+        ];
+    }
+
     public function testGetSameSite(): void
     {
         $sessionConfig = $this->createMock(SessionConfig::class);

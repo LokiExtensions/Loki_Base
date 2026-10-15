@@ -42,6 +42,11 @@ class CookieConfig implements ArgumentInterface
         return (int)$this->sessionConfig->getCookieHttpOnly();
     }
 
+    public function isSecure(): int
+    {
+        return (int)$this->sessionConfig->getCookieSecure();
+    }
+
     public function getSameSite(): string
     {
         return 'Lax'; // @todo Strict, Lax or None
