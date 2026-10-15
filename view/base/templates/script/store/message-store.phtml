@@ -4,7 +4,7 @@ declare(strict_types=1);
 use Loki\Base\ViewModel\ModuleConfig;
 use Magento\Framework\View\Element\Template;
 
-/** @version 1.3.0 */
+/** @version 1.3.1 */
 /** @var Template $block */
 /** @var ModuleConfig $moduleConfig */
 
@@ -21,7 +21,7 @@ $fetchCookies = !(bool)$block->getSkipCookies();
         Alpine.store('Message', {
             messages: [],
             fetchLocalStorage: <?= /* @noEscape */ $fetchLocalStorage ? 'true' : 'false' ?>,
-            fetchCookies: <?= /* @noEscape */ $fetchLocalStorage ? 'true' : 'false' ?>,
+            fetchCookies: <?= /* @noEscape */ $fetchCookies ? 'true' : 'false' ?>,
             init() {
                 if (this.fetchLocalStorage) {
                     document.addEventListener('loki:init:localstorage-store', async () => {
@@ -48,7 +48,7 @@ $fetchCookies = !(bool)$block->getSkipCookies();
                 }
 
                 const cookieMessages = MageCookies.get('mage-messages') || [];
-                if (!cookieMessages instanceof Array) {
+                if (!Array.isArray(cookieMessages)) {
                     MageCookies.remove('mage-messages');
                     return [];
                 }
