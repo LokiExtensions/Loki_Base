@@ -10,6 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `MageCookies.getAll()` no longer truncates cookie values containing `=` (e.g. Cookiebot `CookieConsent`)
 - Playwright test no longer depends on a checkout or catalog product (fails in CI)
 - `script-container.phtml` fatal "Undefined variable $childRenderer" when `Loki_Components` is not installed: `LokiScript` now assigns its own `ChildRenderer`
+- Message store argument `skip_cookies` was ignored, because `fetchCookies` was based on `skip_local_storage`
+- Invalid (non-array) `mage-messages` cookie was not ignored, due to a wrong `instanceof Array` check
+- `MageCookies.remove()` did not remove cookies set with a cookie domain (the default, when no domain is configured Magento uses the current host)
+- Loki Alpine.js was loaded a second time on Hyvä pages with only `Loki_Base`, breaking the Alpine components of the theme
+- `AbstractRenderer::populateBlock()` fatal when no ancestor block was set
+
+### Added
+- Unit tests, integration tests and Playwright tests (for both Luma and Hyvä)
 
 ## [1.3.0] - 28 August 2026
 ### Fixed
