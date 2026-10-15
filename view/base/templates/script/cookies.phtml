@@ -6,7 +6,7 @@ use Loki\Base\ViewModel\ModuleConfig;
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 
-/** @version 1.3.1 */
+/** @version 1.3.2 */
 /** @var Template $block */
 /** @var CookieConfig $cookieConfig */
 /** @var Escaper $escaper */
@@ -64,15 +64,15 @@ $cookieConfig = $block->getCookieConfig();
             document.cookie = cookieParts.join('; ');
         },
         remove(name) {
-            let cookieParts = this.getCookieParts(name, 0);
-            cookieParts = cookieParts.filter(cookiePart => !cookiePart.startsWith('SameSite='));
-            cookieParts = cookieParts.filter(cookiePart => !cookiePart.startsWith('domain='));
-            cookieParts = cookieParts.filter(cookiePart => !cookiePart.startsWith('max-age='));
-            cookieParts = cookieParts.filter(cookiePart => !cookiePart.startsWith('secure'));
-            cookieParts.push('max-age=-999999');
+            const expiredCookie = name + '=; max-age=-999999';
+            const paths = this.path ? ['; path=' + this.path, ''] : [''];
+            const domains = this.domain ? ['; domain=' + this.domain, ''] : [''];
 
-            document.cookie = cookieParts.join('; ');
-            document.cookie = name + '=0; max-age=-999999';
+            paths.forEach(path => {
+                domains.forEach(domain => {
+                    document.cookie = expiredCookie + path + domain;
+                });
+            });
         },
         getCookieParts(name, value, lifetime) {
             let cookieParts = [];
