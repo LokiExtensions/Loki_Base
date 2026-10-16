@@ -29,7 +29,7 @@ class ChildRenderer extends AbstractRenderer
                 continue;
             }
 
-            $childHtml = $parentBlock->getChildHtml($childName);
+            $childHtml = $layout->renderElement($childName);
             if (!empty($childHtml)) {
                 /** @var Text $block */
                 $block = $layout->createBlock(Text::class);
@@ -85,8 +85,9 @@ class ChildRenderer extends AbstractRenderer
     {
         $html = $this->html($ancestorBlock, $groupName);
 
+        $layout = $ancestorBlock->getLayout();
         foreach ($ancestorBlock->getGroupChildNames($groupName) as $childName) {
-            $html .= $ancestorBlock->getChildHtml($childName);
+            $html .= $layout->renderElement($childName);
         }
 
         return $html;

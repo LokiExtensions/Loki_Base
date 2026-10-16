@@ -158,6 +158,36 @@ class ChildRendererTest extends TestCase
         $this->assertSame('FirstThird', $html);
     }
 
+    public function testAnyRendersGroupChildrenWithAlias(): void
+    {
+        $layout = $this->createLayout();
+        $parentBlock = $this->createParentBlock($layout);
+        $this->addTextChild($layout, 'first', 'First');
+        $this->addTextChild($layout, 'second', 'Second');
+        $this->addTextChild($layout, 'third', 'Third');
+        $layout->addToParentGroup(self::PARENT_NAME . '.first', 'example');
+        $layout->addToParentGroup(self::PARENT_NAME . '.third', 'example');
+
+        $html = $this->getChildRenderer()->any($parentBlock, 'example');
+
+        $this->assertSame('FirstThird', $html);
+    }
+
+    public function testAllRendersContainerChildrenWithAlias(): void
+    {
+        $layout = $this->createLayout();
+        $parentBlock = $this->createParentBlock($layout);
+        $containerName = self::PARENT_NAME . '.container';
+        $layout->addContainer($containerName, 'Container', [], self::PARENT_NAME, 'my-container');
+        $layout->createBlock(Text::class, $containerName . '.text', ['data' => ['text' => 'Contained']]);
+        $layout->setChild($containerName, $containerName . '.text', 'text');
+
+        $html = $this->getChildRenderer(AppState::MODE_DEVELOPER)->all($parentBlock);
+
+        $this->assertStringContainsString('Contained', $html);
+        $this->assertStringNotContainsString('WARNING', $html);
+    }
+
     public function testPopulateBlockTransfersAncestorProperties(): void
     {
         $layout = $this->createLayout();
