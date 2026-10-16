@@ -16,6 +16,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Loki Alpine.js was loaded a second time on Hyvä pages with only `Loki_Base`, breaking the Alpine components of the theme
 - `AbstractRenderer::populateBlock()` fatal when no ancestor block was set
 - `MageCookies.set()` added the `secure` flag based on the HttpOnly setting, so browsers silently dropped every cookie on non-HTTPS pages. The `secure` flag is now only added on secure connections
+- `ChildRenderer::any()` and `ChildRenderer::all()` skipped group children and containers that have an alias (`as`), because the layout name was passed to `getChildHtml()` as alias
+- `ChildRenderer::get()` did not transfer ancestor properties (like `css_classes`) to the child block
+- `AbstractRenderer::populateBlock()` ignored the given ancestor block for the ancestor block, ancestor view model and uniq ID, and used a stale ancestor of a previous call instead
+- Messages in the `messages` localStorage section (including those stored with `saveMessage()`) were never shown, because the `LocalStorage` store was initialized before the `Message` store listened to its init event
+- LocalStorage sections invalidated by the server via the `section_data_ids` cookie were not purged
+- LocalStorage store crashed on invalid stored JSON
+- One malformed URI-encoded cookie broke all of `MageCookies`
+- `MageCookies.set()` deleted cookies immediately with a cookie lifetime of 0 (browser session)
+- `x-safe-html` allowed `javascript:` links with different casing or whitespace, as well as `vbscript:` and `data:` links
+- `defer` argument of the Loki Alpine.js block had no effect (the script is still deferred by default)
+- Messages data ID was set in the future, doubling the section lifetime
 
 ### Added
 - Unit tests, integration tests and Playwright tests (for both Luma and Hyvä)

@@ -22,8 +22,8 @@
     ],
     "tests": {
         "unit": 34,
-        "integration": 71,
-        "functional": 56
+        "integration": 77,
+        "functional": 82
     },
     "phpcs_severity": "7",
     "phpstan_level": "5",
