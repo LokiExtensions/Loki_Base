@@ -22,11 +22,11 @@ $cookieConfig = $block->getCookieConfig();
 <script>
     const MageCookies = {
         lifetime: <?= (int)$cookieConfig->getLifetime() ?>,
-        domain: '<?= $escaper->escapeHtml($cookieConfig->getDomain()) ?>',
-        path: '<?= $escaper->escapeHtml($cookieConfig->getPath()) ?>',
+        domain: '<?= $escaper->escapeJs($cookieConfig->getDomain()) ?>',
+        path: '<?= $escaper->escapeJs($cookieConfig->getPath()) ?>',
         httpOnly: <?= (int)$cookieConfig->isHttpOnly() ?>,
         secure: <?= (int)$cookieConfig->isSecure() ?>,
-        sameSite: '<?=  $escaper->escapeHtml($cookieConfig->getSameSite()) ?>',
+        sameSite: '<?= $escaper->escapeJs($cookieConfig->getSameSite()) ?>',
         getAll() {
             const cookies = {};
             document.cookie.split(';').forEach(cookie => {

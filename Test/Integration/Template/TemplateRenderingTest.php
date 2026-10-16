@@ -11,6 +11,7 @@ use Loki\Base\ViewModel\ModuleConfig;
 use Loki\Base\ViewModel\SectionConfig;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Data\Form\FormKey;
+use Magento\Framework\Escaper;
 use Magento\Framework\Session\Config as SessionConfig;
 use Magento\Framework\View\Element\Template;
 use Magento\TestFramework\Fixture\AppArea;
@@ -102,8 +103,9 @@ class TemplateRenderingTest extends TestCase
 
         $this->assertStringContainsString('const MageCookies', $html);
         $this->assertStringContainsString('lifetime: 3600,', $html);
-        $this->assertStringContainsString("domain: '.example.com',", $html);
-        $this->assertStringContainsString("path: '/',", $html);
+        $escaper = $this->get(Escaper::class);
+        $this->assertStringContainsString("domain: '" . $escaper->escapeJs('.example.com') . "',", $html);
+        $this->assertStringContainsString("path: '" . $escaper->escapeJs('/') . "',", $html);
         $this->assertStringContainsString('httpOnly: 1,', $html);
         $this->assertStringContainsString('secure: 0,', $html);
         $this->assertStringContainsString("sameSite: 'Lax',", $html);
