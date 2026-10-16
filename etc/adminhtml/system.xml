@@ -19,8 +19,8 @@
                        showInWebsite="1"
                        showInStore="0">
                     <label>Timeout</label>
-                    <tooltip>Whenever messages are popping up, they are automatically after this timeout. This is by default 5000ms (5 seconds).</tooltip>
-                    <comment>In microseconds. Set to 0 to never remove messages automatically</comment>
+                    <tooltip>Whenever messages are popping up, they are automatically removed after this timeout. This is by default 5000ms (5 seconds).</tooltip>
+                    <comment>In milliseconds. Set to 0 to never remove messages automatically</comment>
                 </field>
             </group>
         </section>
