@@ -70,6 +70,54 @@ for (const theme of THEMES) {
             }
         });
 
+        test('should purge sections invalidated by the section_data_ids cookie on init', async ({page}) => {
+            const result = await page.evaluate((storageKey) => {
+                const store = Alpine.store('LocalStorage');
+                const now = store.getCurrentTimestamp();
+                localStorage.setItem(storageKey, JSON.stringify({
+                    loki_invalidated: {data_id: now - 10},
+                    loki_unchanged: {data_id: now - 10},
+                    loki_not_in_cookie: {data_id: now - 10},
+                }));
+
+                const cookieValue = encodeURIComponent(JSON.stringify({
+                    loki_invalidated: now,
+                    loki_unchanged: now - 10,
+                }));
+                document.cookie = 'section_data_ids=' + cookieValue + '; path=/';
+
+                store.init();
+
+                document.cookie = 'section_data_ids=; max-age=-1; path=/';
+
+                return Object.keys(JSON.parse(localStorage.getItem(storageKey) || '{}'));
+            }, STORAGE_KEY);
+
+            expect(result).not.toContain('loki_invalidated');
+            expect(result).toContain('loki_unchanged');
+            expect(result).toContain('loki_not_in_cookie');
+        });
+
+        test('should not crash on invalid stored data', async ({page}) => {
+            const result = await page.evaluate((storageKey) => {
+                const store = Alpine.store('LocalStorage');
+                const results: Record<string, unknown> = {};
+                for (const value of ['null', 'not json', '"a string"']) {
+                    (localStorage.setItem as any)(storageKey, value, true);
+                    try {
+                        store.init();
+                        results[value] = JSON.parse(JSON.stringify(store.data));
+                    } catch (e) {
+                        results[value] = 'error: ' + (e as Error).message;
+                    }
+                }
+
+                return results;
+            }, STORAGE_KEY);
+
+            expect(result).toEqual({'null': {}, 'not json': {}, '"a string"': {}});
+        });
+
         test('should dispatch a localStorageUpdate event when setting an item', async ({page}) => {
             const detail = await page.evaluate(() => new Promise(resolve => {
                 document.addEventListener('localStorageUpdate', (event: any) => resolve(event.detail), {once: true});
