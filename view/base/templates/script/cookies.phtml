@@ -6,7 +6,7 @@ use Loki\Base\ViewModel\ModuleConfig;
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Element\Template;
 
-/** @version 1.3.3 */
+/** @version 1.3.4 */
 /** @var Template $block */
 /** @var CookieConfig $cookieConfig */
 /** @var Escaper $escaper */
@@ -38,7 +38,11 @@ $cookieConfig = $block->getCookieConfig();
 
                 let value = cookie.slice(separatorIndex + 1).trim();
 
-                value = decodeURIComponent(value);
+                try {
+                    value = decodeURIComponent(value);
+                } catch (e) {
+                    // Foreign cookie with a malformed URI sequence — keep raw string.
+                }
 
                 if (value.startsWith('[') || value.startsWith('{')) {
                     try {

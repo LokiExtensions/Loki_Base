@@ -56,5 +56,20 @@ for (const theme of THEMES) {
             expect(result.value).toBe('[[B]]');
             expect(result.all).toContain('s_sq');
         });
+
+        test('should keep a malformed URI-encoded cookie as raw string', async ({page, context, baseURL}) => {
+            await context.addCookies([{name: 'loki_test_malformed', value: '%E0%A4%A', url: baseURL as string}]);
+
+            const result = await page.evaluate(() => {
+                try {
+                    return {value: MageCookies.get('loki_test_malformed'), error: null};
+                } catch (e) {
+                    return {value: null, error: (e as Error).message};
+                }
+            });
+
+            expect(result.error).toBeNull();
+            expect(result.value).toBe('%E0%A4%A');
+        });
     });
 }
