@@ -27,6 +27,8 @@ abstract class AbstractRenderer implements ArgumentInterface
         ?AbstractBlock $ancestorBlock = null,
     ): void {
         if ($ancestorBlock instanceof AbstractBlock) {
+            $this->ancestorBlock = $ancestorBlock;
+
             foreach ($this->transferableAncestorBlock->getProperties() as $propertyName) {
                 $propertyValue = $ancestorBlock->getData($propertyName);
                 if (!empty($propertyValue)) {

@@ -188,6 +188,48 @@ class ChildRendererTest extends TestCase
         $this->assertStringNotContainsString('WARNING', $html);
     }
 
+    public function testGetTransfersAncestorProperties(): void
+    {
+        $layout = $this->createLayout();
+        $parentBlock = $this->createParentBlock($layout, ['css_classes' => ['foo']]);
+        $this->addTextChild($layout, 'foo', 'Foo');
+
+        $block = $this->getChildRenderer()->get($parentBlock, 'foo');
+
+        $this->assertSame(['foo'], $block->getCssClasses());
+    }
+
+    public function testPopulateBlockUsesGivenAncestorBlock(): void
+    {
+        $layout = $this->createLayout();
+        $parentBlock = $this->createParentBlock($layout);
+        /** @var Text $block */
+        $block = $layout->createBlock(Text::class, 'loki.some.block');
+
+        $this->getChildRenderer()->populateBlock($block, [], $parentBlock);
+
+        $this->assertSame($parentBlock, $block->getAncestorBlock());
+        $this->assertSame('loki-parent-block-block', $block->getUniqId());
+    }
+
+    public function testPopulateBlockDoesNotUseStaleAncestorBlock(): void
+    {
+        $layout = $this->createLayout();
+        $parentBlock = $this->createParentBlock($layout);
+        $this->addTextChild($layout, 'foo', 'Foo');
+        /** @var Template $otherParentBlock */
+        $otherParentBlock = $layout->createBlock(Template::class, 'loki.other_parent');
+        /** @var Text $block */
+        $block = $layout->createBlock(Text::class, 'loki.other_parent.bar');
+
+        $childRenderer = $this->getChildRenderer();
+        $childRenderer->get($parentBlock, 'foo');
+        $childRenderer->populateBlock($block, [], $otherParentBlock);
+
+        $this->assertSame($otherParentBlock, $block->getAncestorBlock());
+        $this->assertSame('loki-other-parent-bar', $block->getUniqId());
+    }
+
     public function testPopulateBlockTransfersAncestorProperties(): void
     {
         $layout = $this->createLayout();

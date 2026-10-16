@@ -73,7 +73,7 @@ class ChildRenderer extends AbstractRenderer
 
         $block->setAlias($blockAlias);
         $this->setNameInLayout($block);
-        $this->populateBlock($block, $data);
+        $this->populateBlock($block, $data, $this->ancestorBlock);
 
         return $block;
     }
