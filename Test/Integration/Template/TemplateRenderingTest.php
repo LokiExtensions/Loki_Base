@@ -164,20 +164,26 @@ class TemplateRenderingTest extends TestCase
     }
 
     #[DataProvider('getAlpineTemplateData')]
-    public function testAlpineCspTemplate(bool $defer): void
+    public function testAlpineCspTemplate(?bool $defer, bool $expectedDefer): void
     {
-        $html = $this->renderTemplate('Loki_Base::script/alpine-csp.phtml', [
-            'module_config' => $this->get(ModuleConfig::class),
-            'defer' => $defer,
-        ]);
+        $data = ['module_config' => $this->get(ModuleConfig::class)];
+        if ($defer !== null) {
+            $data['defer'] = $defer;
+        }
 
-        $this->assertMatchesRegularExpression('#<script defer src="[^"]+Loki_Base/js/alpine-csp\.min\.js"#', $html);
-        $this->assertSame($defer, str_contains($html, '" defer></script>'));
+        $html = $this->renderTemplate('Loki_Base::script/alpine-csp.phtml', $data);
+
+        $this->assertMatchesRegularExpression('#<script src="[^"]+Loki_Base/js/alpine-csp\.min\.js"#', $html);
+        $this->assertSame($expectedDefer ? 1 : 0, substr_count($html, 'defer'));
     }
 
     public static function getAlpineTemplateData(): array
     {
-        return [[true], [false]];
+        return [
+            [null, true],
+            [true, true],
+            [false, false],
+        ];
     }
 
     public function testExceptionTemplate(): void
