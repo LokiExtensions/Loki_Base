@@ -90,7 +90,7 @@ $fetchCookies = !(bool)$block->getSkipCookies();
             },
             reset() {
                 this.getStore().set('messages', {
-                    data_id: this.getStore().getNewSectionLifetime(),
+                    data_id: this.getStore().getCurrentTimestamp(),
                     messages: []
                 });
             },
@@ -100,7 +100,7 @@ $fetchCookies = !(bool)$block->getSkipCookies();
             },
             setMessageInStore(messages) {
                 this.getStore().set('messages', {
-                    data_id: this.getStore().getNewSectionLifetime(),
+                    data_id: this.getStore().getCurrentTimestamp(),
                     messages
                 });
             },
