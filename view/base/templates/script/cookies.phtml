@@ -85,10 +85,13 @@ $cookieConfig = $block->getCookieConfig();
             value = encodeURIComponent(value);
             cookieParts.push(name + '=' + value);
 
-            if (!lifetime > 0) {
+            if (!(lifetime > 0)) {
                 lifetime = this.lifetime;
             }
-            cookieParts.push('max-age=' + lifetime);
+
+            if (lifetime > 0) {
+                cookieParts.push('max-age=' + lifetime);
+            }
 
             if (this.path) {
                 cookieParts.push('path=' + this.path);

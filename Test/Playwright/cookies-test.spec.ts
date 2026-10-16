@@ -71,5 +71,26 @@ for (const theme of THEMES) {
             expect(result.error).toBeNull();
             expect(result.value).toBe('%E0%A4%A');
         });
+
+        test('should keep a cookie when the configured lifetime is 0 (browser session)', async ({page, context, baseURL}) => {
+            await page.evaluate(() => {
+                (MageCookies as any).lifetime = 0;
+                MageCookies.set('loki_test_session', 'foobar');
+            });
+
+            expect(await page.evaluate(() => MageCookies.get('loki_test_session'))).toBe('foobar');
+
+            const cookie = (await context.cookies(baseURL as string)).find(c => c.name === 'loki_test_session');
+            expect(cookie?.expires).toBe(-1);
+        });
+
+        test('should use the configured lifetime for an invalid lifetime argument', async ({page}) => {
+            const parts = await page.evaluate(() => {
+                (MageCookies as any).lifetime = 3600;
+                return (MageCookies as any).getCookieParts('foo', 'bar', -10);
+            });
+
+            expect(parts).toContain('max-age=3600');
+        });
     });
 }
