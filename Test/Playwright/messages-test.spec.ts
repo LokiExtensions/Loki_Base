@@ -21,6 +21,11 @@ async function addMessage(page: Page, method: string, text: string) {
     await page.evaluate(([method, text]) => Alpine.store('Message')[method](text), [method, text]);
 }
 
+async function waitForLumaCustomerData(page: Page) {
+    // Luma its customer-data.js wipes the localStorage on the very first visit
+    await page.waitForFunction(() => document.cookie.includes('mage-cache-sessid') && localStorage.getItem('mage-cache-timeout'));
+}
+
 async function setMessagesCookie(page: Page, value: string) {
     await page.evaluate((value) => {
         document.cookie = 'mage-messages=' + encodeURIComponent(value) + '; path=/';
@@ -107,6 +112,39 @@ for (const theme of THEMES) {
                 expect(messages).toContainEqual({type: 'success', text: 'From cookie'});
                 expect(cookie).toBeUndefined();
                 await expect(messageLocator(page, 'success', 'From cookie')).toBeVisible();
+            });
+
+            test('should show a message stored in the localStorage messages section', async ({page, context}) => {
+                test.skip(isHyva(theme), 'Hyvä skips loading messages from localStorage');
+
+                await waitForLumaCustomerData(page);
+                await context.clearCookies({name: 'section_data_ids'});
+                await page.evaluate(() => {
+                    localStorage.setItem('mage-cache-storage', JSON.stringify({
+                        messages: {
+                            data_id: Math.floor(Date.now() / 1000),
+                            messages: [{type: 'success', text: 'From localStorage'}],
+                        },
+                    }));
+                });
+
+                await page.reload();
+                await waitForAlpineStores(page);
+
+                await expect(messageLocator(page, 'success', 'From localStorage')).toBeVisible();
+            });
+
+            test('should show a message saved with saveMessage() on the next page', async ({page, context}) => {
+                test.skip(isHyva(theme), 'Hyvä skips loading messages from localStorage');
+
+                await waitForLumaCustomerData(page);
+                await context.clearCookies({name: 'section_data_ids'});
+                await page.evaluate(() => Alpine.store('Message').saveMessage('notice', 'Saved for later'));
+
+                await page.reload();
+                await waitForAlpineStores(page);
+
+                await expect(messageLocator(page, 'notice', 'Saved for later')).toBeVisible();
             });
 
             for (const invalidValue of ['{"foo":"bar"}', 'not an array']) {

@@ -89,7 +89,8 @@ for (const theme of THEMES) {
         });
 
         test('should fetch an unknown section from the server', async ({page}) => {
-            const requestPromise = page.waitForRequest(request => request.url().includes('customer/section/load'));
+            const requestPromise = page.waitForRequest(request => request.url().includes('customer/section/load')
+                && request.url().includes('loki_unknown_section'));
             await page.evaluate(() => Alpine.store('LocalStorage').get('loki_unknown_section').catch(() => null));
             const request = await requestPromise;
 
