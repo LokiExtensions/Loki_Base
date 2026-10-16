@@ -40,5 +40,28 @@ for (const theme of THEMES) {
             await page.waitForTimeout(500);
             expect(await page.evaluate(() => (window as any).__lokiXss)).toBeUndefined();
         });
+
+        for (const href of [
+            'JavaScript:window.__lokiXss = 1',
+            ' javascript:window.__lokiXss = 1',
+            'java&#x09;script:window.__lokiXss = 1',
+            'vbscript:window.__lokiXss = 1',
+            'data:text/html,<script>window.__lokiXss = 1</script>',
+        ]) {
+            test(`should strip an unsafe href: ${href}`, async ({page}) => {
+                await page.evaluate((html) => Alpine.store('Message').addErrorMessage(html), `<a href="${href}">Unsafe</a>`);
+
+                const link = page.locator('[x-data="LokiMessagesComponent"] div[data-message-type="error"] [x-safe-html] a');
+                await expect(link).toHaveText('Unsafe');
+                await expect(link).not.toHaveAttribute('href');
+            });
+        }
+
+        test('should keep a safe href', async ({page}) => {
+            await page.evaluate(() => Alpine.store('Message').addErrorMessage('<a href="/customer/account">Account</a>'));
+
+            const link = page.locator('[x-data="LokiMessagesComponent"] div[data-message-type="error"] [x-safe-html] a');
+            await expect(link).toHaveAttribute('href', '/customer/account');
+        });
     });
 }
