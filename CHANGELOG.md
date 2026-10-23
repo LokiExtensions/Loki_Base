@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Fixed
+- Pressing Escape only removed the first of multiple messages, because the unkeyed `x-for` of the messages component removed the Escape listeners of the remaining messages while re-rendering
 - ACL resource `Loki_Base::config` is now a child of `Magento_Backend::admin` instead of a top-level sibling of it, which broke integration ACL resolution and hid it from restricted admin roles
 - `MageCookies.getAll()` no longer truncates cookie values containing `=` (e.g. Cookiebot `CookieConsent`)
 - Playwright test no longer depends on a checkout or catalog product (fails in CI)
