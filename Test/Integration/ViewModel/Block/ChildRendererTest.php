@@ -143,6 +143,47 @@ class ChildRendererTest extends TestCase
         $this->assertSame('', $this->getChildRenderer()->html($parentBlock, 'unknown'));
     }
 
+    public function testHtmlFallsBackToChildHtmlForContainerAlias(): void
+    {
+        $layout = $this->createLayout();
+        $parentBlock = $this->createParentBlock($layout);
+        $containerName = self::PARENT_NAME . '.container';
+        $layout->addContainer($containerName, 'Container', [], self::PARENT_NAME, 'my-container');
+        $layout->createBlock(Text::class, $containerName . '.text', ['data' => ['text' => 'Contained']]);
+        $layout->setChild($containerName, $containerName . '.text', 'text');
+
+        $html = $this->getChildRenderer()->html($parentBlock, 'my-container');
+
+        $this->assertStringContainsString('Contained', $html);
+    }
+
+    public function testAllKeepsLayoutOrderForEqualSortOrder(): void
+    {
+        $layout = $this->createLayout();
+        $parentBlock = $this->createParentBlock($layout);
+        $this->addTextChild($layout, 'first', 'First');
+        $this->addTextChild($layout, 'second', 'Second');
+        $this->addTextChild($layout, 'third', 'Third');
+
+        $html = $this->getChildRenderer()->all($parentBlock);
+
+        $this->assertSame("First\nSecond\nThird\n", $html);
+    }
+
+    public function testAnyCombinesAliasChildAndGroupChildren(): void
+    {
+        $layout = $this->createLayout();
+        $parentBlock = $this->createParentBlock($layout);
+        $this->addTextChild($layout, 'example', 'Aliased');
+        $this->addTextChild($layout, 'first', 'First', 0, false);
+        $this->addTextChild($layout, 'second', 'Second', 0, false);
+        $layout->addToParentGroup(self::PARENT_NAME . '.first', 'example');
+
+        $html = $this->getChildRenderer()->any($parentBlock, 'example');
+
+        $this->assertSame('AliasedFirst', $html);
+    }
+
     public function testAnyRendersGroupChildren(): void
     {
         $layout = $this->createLayout();

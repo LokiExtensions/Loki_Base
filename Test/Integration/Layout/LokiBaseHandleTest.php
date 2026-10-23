@@ -147,6 +147,39 @@ class LokiBaseHandleTest extends TestCase
         $this->assertStringContainsString("Alpine.data('LokiMessagesComponent'", $html);
     }
 
+    #[AppIsolation(true)]
+    public function testScriptRenderOrder(): void
+    {
+        $layout = $this->loadLayout(['default', 'loki_base']);
+        $html = $layout->renderElement('before.body.end');
+
+        $orderedSnippets = [
+            'const MageCookies',
+            "Alpine.store('LocalStorage'",
+            "Alpine.store('Message'",
+            "Alpine.directive('autoremove'",
+            "Alpine.data('LokiMessagesComponent'",
+        ];
+
+        $previousPosition = -1;
+        foreach ($orderedSnippets as $snippet) {
+            $position = strpos($html, $snippet);
+            $this->assertNotFalse($position, 'Snippet "' . $snippet . '" not found');
+            $this->assertGreaterThan($previousPosition, $position, 'Snippet "' . $snippet . '" is rendered too early');
+            $previousPosition = $position;
+        }
+    }
+
+    #[AppIsolation(true)]
+    public function testMessagesBlockIsFirstInPageMessages(): void
+    {
+        $layout = $this->loadLayout(['default', 'loki_base']);
+        $childNames = $layout->getChildNames('page.messages');
+
+        $this->assertNotEmpty($childNames);
+        $this->assertSame('loki.messages', reset($childNames));
+    }
+
     private function getBlock(LayoutInterface $layout, string $name): AbstractBlock
     {
         $block = $layout->getBlock($name);
