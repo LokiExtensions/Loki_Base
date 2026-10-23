@@ -19,7 +19,7 @@ if ($moduleConfig->isEnabled('MageOS_AlpineMessages')) {
 <div
     class="<?= $escaper->escapeHtml($css('container mx-auto py-3')) ?>"
     x-data="LokiMessagesComponent" x-cloak x-show="hasMessages">
-    <template x-for="message in messages">
+    <template x-for="message in messages" :key="message.key">
         <div
             :data-message-type="message.type"
             :data-message-text="message.text"

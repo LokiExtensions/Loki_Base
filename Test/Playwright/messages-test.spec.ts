@@ -26,6 +26,14 @@ async function waitForLumaCustomerData(page: Page) {
     await page.waitForFunction(() => document.cookie.includes('mage-cache-sessid') && localStorage.getItem('mage-cache-timeout'));
 }
 
+async function expectNoLokiMessages(page: Page) {
+    // Hyvä skips loading messages from localStorage, so give the store a moment to prove it stays empty
+    await page.waitForTimeout(1000);
+    await expect(page.locator('[x-data="LokiMessagesComponent"] div[data-message-type]')).toHaveCount(0);
+    expect(await page.evaluate(() => Alpine.store('Message').fetchLocalStorage)).toBe(false);
+    expect(await page.evaluate(() => Alpine.store('Message').messages.length)).toBe(0);
+}
+
 async function setMessagesCookie(page: Page, value: string) {
     await page.evaluate((value) => {
         document.cookie = 'mage-messages=' + encodeURIComponent(value) + '; path=/';
@@ -88,6 +96,77 @@ for (const theme of THEMES) {
                 await expect(message).toHaveCount(0);
             });
 
+            test('should hide the messages container without messages', async ({page}) => {
+                const container = page.locator('[x-data="LokiMessagesComponent"]');
+                await expect(container).toHaveCount(1);
+                await expect(container).toBeHidden();
+
+                await addMessage(page, 'addSuccessMessage', 'Show the container');
+                await expect(container).toBeVisible();
+
+                await messageLocator(page, 'success', 'Show the container').locator('button').click();
+                await expect(container).toBeHidden();
+            });
+
+            test('should only remove the closed message', async ({page}) => {
+                await addMessage(page, 'addSuccessMessage', 'First message');
+                await addMessage(page, 'addErrorMessage', 'Second message');
+                await addMessage(page, 'addNoticeMessage', 'Third message');
+
+                await messageLocator(page, 'error', 'Second message').locator('button').click();
+
+                await expect(messageLocator(page, 'error', 'Second message')).toHaveCount(0);
+                await expect(messageLocator(page, 'success', 'First message')).toBeVisible();
+                await expect(messageLocator(page, 'notice', 'Third message')).toBeVisible();
+            });
+
+            test('should only remove the message with the matching type', async ({page}) => {
+                await addMessage(page, 'addSuccessMessage', 'Same text');
+                await addMessage(page, 'addWarningMessage', 'Same text');
+
+                await messageLocator(page, 'warning', 'Same text').locator('button').click();
+
+                await expect(messageLocator(page, 'warning', 'Same text')).toHaveCount(0);
+                await expect(messageLocator(page, 'success', 'Same text')).toBeVisible();
+            });
+
+            test('should show and remove duplicate messages', async ({page}) => {
+                await addMessage(page, 'addSuccessMessage', 'Duplicate message');
+                await addMessage(page, 'addSuccessMessage', 'Duplicate message');
+
+                const messages = messageLocator(page, 'success', 'Duplicate message');
+                await expect(messages).toHaveCount(2);
+
+                await messages.first().locator('button').click();
+                await expect(messages).toHaveCount(0);
+            });
+
+            test('should remove all messages when pressing Escape', async ({page}) => {
+                await addMessage(page, 'addSuccessMessage', 'Escape first');
+                await addMessage(page, 'addErrorMessage', 'Escape second');
+                await expect(messageLocator(page, 'success', 'Escape first')).toBeVisible();
+                await expect(messageLocator(page, 'error', 'Escape second')).toBeVisible();
+
+                await page.keyboard.press('Escape');
+
+                await expect(messageLocator(page, 'success', 'Escape first')).toHaveCount(0);
+                await expect(messageLocator(page, 'error', 'Escape second')).toHaveCount(0);
+            });
+
+            test('should remove a message containing HTML and quotes', async ({page}) => {
+                const text = 'Go to <a href="/checkout">"checkout"</a> & pay';
+                await addMessage(page, 'addNoticeMessage', text);
+
+                const message = page.locator('[x-data="LokiMessagesComponent"] div[data-message-type="notice"]');
+                await expect(message).toHaveCount(1);
+                await expect(message).toHaveAttribute('data-message-text', text);
+                await expect(message.locator('a[href="/checkout"]')).toBeVisible();
+
+                await message.locator('button').click();
+                await expect(message).toHaveCount(0);
+                expect(await page.evaluate(() => Alpine.store('Message').messages.length)).toBe(0);
+            });
+
             test('should keep a message when the timeout is 0', async ({page}) => {
                 await addMessage(page, 'addSuccessMessage', 'Keep me');
                 const message = messageLocator(page, 'success', 'Keep me');
@@ -114,10 +193,11 @@ for (const theme of THEMES) {
                 await expect(messageLocator(page, 'success', 'From cookie')).toBeVisible();
             });
 
-            test('should show a message stored in the localStorage messages section', async ({page, context}) => {
-                test.skip(isHyva(theme), 'Hyvä skips loading messages from localStorage');
+            test('should handle a message stored in the localStorage messages section', async ({page, context}) => {
+                if (!isHyva(theme)) {
+                    await waitForLumaCustomerData(page);
+                }
 
-                await waitForLumaCustomerData(page);
                 await context.clearCookies({name: 'section_data_ids'});
                 await page.evaluate(() => {
                     localStorage.setItem('mage-cache-storage', JSON.stringify({
@@ -131,18 +211,29 @@ for (const theme of THEMES) {
                 await page.reload();
                 await waitForAlpineStores(page);
 
+                if (isHyva(theme)) {
+                    await expectNoLokiMessages(page);
+                    return;
+                }
+
                 await expect(messageLocator(page, 'success', 'From localStorage')).toBeVisible();
             });
 
-            test('should show a message saved with saveMessage() on the next page', async ({page, context}) => {
-                test.skip(isHyva(theme), 'Hyvä skips loading messages from localStorage');
+            test('should handle a message saved with saveMessage() on the next page', async ({page, context}) => {
+                if (!isHyva(theme)) {
+                    await waitForLumaCustomerData(page);
+                }
 
-                await waitForLumaCustomerData(page);
                 await context.clearCookies({name: 'section_data_ids'});
                 await page.evaluate(() => Alpine.store('Message').saveMessage('notice', 'Saved for later'));
 
                 await page.reload();
                 await waitForAlpineStores(page);
+
+                if (isHyva(theme)) {
+                    await expectNoLokiMessages(page);
+                    return;
+                }
 
                 await expect(messageLocator(page, 'notice', 'Saved for later')).toBeVisible();
             });
