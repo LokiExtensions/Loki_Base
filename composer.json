@@ -22,5 +22,9 @@
     },
     "keywords": [
         "loki"
-    ]
+    ],
+    "require-dev": {
+        "yireo/magento2-integration-test-helper": "~0.0",
+        "loki/magento2-functional-tests": "@dev"
+    }
 }
