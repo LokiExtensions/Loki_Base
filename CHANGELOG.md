@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [1.3.1] - 24 October 2026
+### Added
+- Add `$ancestorViewModel` to block rendered via `BlockRenderer`, `ChildRenderer` or `TemplateRenderer` (if available)
+
 ### Fixed
 - Pressing Escape only removed the first of multiple messages, because the unkeyed `x-for` of the messages component removed the Escape listeners of the remaining messages while re-rendering
 - ACL resource `Loki_Base::config` is now a child of `Magento_Backend::admin` instead of a top-level sibling of it, which broke integration ACL resolution and hid it from restricted admin roles
@@ -28,9 +33,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `x-safe-html` allowed `javascript:` links with different casing or whitespace, as well as `vbscript:` and `data:` links
 - `defer` argument of the Loki Alpine.js block had no effect (the script is still deferred by default)
 - Messages data ID was set in the future, doubling the section lifetime
-
-### Added
-- Unit tests, integration tests and Playwright tests (for both Luma and Hyvä)
 
 ## [1.3.0] - 28 August 2026
 ### Fixed
