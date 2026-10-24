@@ -5,7 +5,6 @@
     "license": "OSL-3.0",
     "type": "magento2-module",
     "require": {
-        "ext-pcre": "*",
         "loki/magento2-css-utils": "^1.0",
         "magento/framework": "^103.0",
         "magento/module-backend": "^102.0",
@@ -25,6 +24,8 @@
     ],
     "require-dev": {
         "loki/magento2-functional-tests": "@dev",
+        "magento/module-config": "^101.2",
+        "phpunit/phpunit": "^10.5",
         "yireo/magento2-integration-test-helper": "~0.0"
     }
 }
