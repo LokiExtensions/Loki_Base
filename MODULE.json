@@ -22,7 +22,7 @@
     ],
     "tests": {
         "unit": 15,
-        "integration": 70,
+        "integration": 71,
         "functional": 37
     },
     "phpcs_severity": "7",
