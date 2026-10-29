@@ -126,7 +126,7 @@ class AbstractRendererTest extends TestCase
     {
         $layout = $this->createLayout();
         $renderer = $this->getRenderer();
-        $block = $this->createTextBlock($layout, 'loki.some.block');
+        $block = $this->createTextBlock($layout, self::PARENT_NAME . '.block');
 
         $this->assertSame('block', $renderer->callGetUniqId($block));
         $this->assertSame('foo-bar-baz', $renderer->callGetUniqId($block, ['uniq' => 'foo bar_baz']));
@@ -134,6 +134,17 @@ class AbstractRendererTest extends TestCase
         $renderer->setAncestorBlock($this->createParentBlock($layout));
         $this->assertSame('loki-parent-block-block', $renderer->callGetUniqId($block));
         $this->assertSame('loki-parent-block-foo-bar', $renderer->callGetUniqId($block, ['uniq' => 'foo/bar']));
+    }
+
+    public function testGetUniqIdUsesOwnNameForNonChildBlock(): void
+    {
+        $layout = $this->createLayout();
+        $renderer = $this->getRenderer();
+        $block = $this->createTextBlock($layout, 'loki.some_other.form');
+
+        $renderer->setAncestorBlock($this->createParentBlock($layout));
+        $this->assertSame('loki-some-other-form', $renderer->callGetUniqId($block));
+        $this->assertSame('loki-some-other-form', $renderer->callGetUniqId($block, ['uniq' => 'foo-form']));
     }
 
     #[DataProvider('getDeveloperModeData')]

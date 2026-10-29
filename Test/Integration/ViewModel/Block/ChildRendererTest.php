@@ -250,7 +250,7 @@ class ChildRendererTest extends TestCase
         $this->getChildRenderer()->populateBlock($block, [], $parentBlock);
 
         $this->assertSame($parentBlock, $block->getAncestorBlock());
-        $this->assertSame('loki-parent-block-block', $block->getUniqId());
+        $this->assertSame('loki-some-block', $block->getUniqId());
     }
 
     public function testPopulateBlockDoesNotUseStaleAncestorBlock(): void

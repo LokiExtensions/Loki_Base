@@ -117,7 +117,13 @@ abstract class AbstractRenderer implements ArgumentInterface
             return $uniq;
         }
 
-        $ancestorId = preg_replace('/([^a-zA-Z0-9\-]+)/', '-', $this->ancestorBlock->getNameInLayout());
+        $ancestorName = (string)$this->ancestorBlock->getNameInLayout();
+        $blockName = (string)$block->getNameInLayout();
+        if ($blockName !== '' && false === str_starts_with($blockName, $ancestorName . '.')) {
+            return preg_replace('/([^a-zA-Z0-9\-]+)/', '-', $blockName);
+        }
+
+        $ancestorId = preg_replace('/([^a-zA-Z0-9\-]+)/', '-', $ancestorName);
         return $ancestorId . '-' . $uniq;
     }
 
