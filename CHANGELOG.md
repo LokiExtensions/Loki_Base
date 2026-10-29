@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.2] - 29 October 2026
+### Fixed
+- Use own block name as uniq ID for non-child blocks
+
 ## [1.3.1] - 24 October 2026
 ### Added
 - Add `$ancestorViewModel` to block rendered via `BlockRenderer`, `ChildRenderer` or `TemplateRenderer` (if available)
