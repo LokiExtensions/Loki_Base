@@ -48,7 +48,7 @@ class LokiScriptTest extends TestCase
         $childRenderer->method('all')->willReturn('custom');
         $block->assign('childRenderer', $childRenderer);
 
-        $this->assertSame('custom', trim($block->toHtml()));
+        $this->assertSame('custom', trim($block->toHtml(), " \f\n\r\t\v\x00"));
     }
 
     private function createLokiScript(LayoutInterface $layout): LokiScript

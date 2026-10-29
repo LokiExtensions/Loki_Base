@@ -208,7 +208,7 @@ class TemplateRenderingTest extends TestCase
         $moduleConfig->method('isEnabled')->willReturn(true);
 
         $data['module_config'] = $moduleConfig;
-        $this->assertSame('', trim($this->renderTemplate($template, $data)));
+        $this->assertSame('', trim($this->renderTemplate($template, $data), " \f\n\r\t\v\x00"));
     }
 
     public static function getMageOsTemplateData(): array

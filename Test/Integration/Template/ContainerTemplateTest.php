@@ -24,7 +24,7 @@ class ContainerTemplateTest extends TestCase
         $this->addChild($layout, 'first', '<p>First</p>', 20);
         $this->addChild($layout, 'second', '<p>Second</p>', 10);
 
-        $html = trim((string)$block->toHtml());
+        $html = trim((string)$block->toHtml(), " \f\n\r\t\v\x00");
 
         $this->assertMatchesRegularExpression('#^<div class="[^"]*">.*</div>$#s', $html);
         $this->assertStringContainsString('<p>First</p>', $html);
