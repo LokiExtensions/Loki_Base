@@ -161,6 +161,12 @@ class TemplateRenderingTest extends TestCase
         $this->assertStringContainsString('x-data="LokiMessagesComponent"', $html);
         $this->assertStringContainsString('x-autoremove="timeout"', $html);
         $this->assertStringContainsString('x-safe-html="message.text"', $html);
+        $this->assertMatchesRegularExpression(
+            '/x-data="LokiMessagesComponent"\s+role="status"\s+aria-live="polite"/',
+            $html
+        );
+        $this->assertStringContainsString('aria-label="Close&#x20;message"', $html);
+        $this->assertStringContainsString('aria-hidden="true"', $html);
     }
 
     #[DataProvider('getAlpineTemplateData')]

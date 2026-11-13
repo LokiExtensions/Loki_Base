@@ -69,6 +69,25 @@ for (const theme of THEMES) {
                 });
             }
 
+            test('should announce messages through a live region that exists before any message', async ({page}) => {
+                const liveRegion = page.locator('[x-data="LokiMessagesComponent"]');
+                await expect(liveRegion).toHaveCount(1);
+                await expect(liveRegion).toHaveAttribute('role', 'status');
+                await expect(liveRegion).toHaveAttribute('aria-live', 'polite');
+                await expect(liveRegion).toHaveCSS('display', 'block');
+
+                await addMessage(page, 'addErrorMessage', 'Announced message');
+                await expect(page.getByRole('status').filter({hasText: 'Announced message'})).toHaveCount(1);
+            });
+
+            test('should give the close button an accessible name', async ({page}) => {
+                await addMessage(page, 'addNoticeMessage', 'Named close button');
+                const message = messageLocator(page, 'notice', 'Named close button');
+
+                await expect(message.getByRole('button', {name: 'Close message'})).toBeVisible();
+                await expect(message.locator('svg')).toHaveAttribute('aria-hidden', 'true');
+            });
+
             test('should remove a message when clicking the close button', async ({page}) => {
                 await addMessage(page, 'addSuccessMessage', 'Close me');
                 const message = messageLocator(page, 'success', 'Close me');
