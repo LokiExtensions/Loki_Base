@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.3] - 13 November 2026
+### Fixed
+- Cover the live region and the close button name of the messages
+- Announce Loki messages to screen readers
+
 ## [1.3.2] - 29 October 2026
 ### Fixed
 - Use own block name as uniq ID for non-child blocks
