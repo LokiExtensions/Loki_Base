@@ -4,6 +4,8 @@ namespace Loki\Base\Test\Integration\Template;
 
 use Loki\Base\Block\LokiScript;
 use Loki\Base\Test\Integration\Traits\LayoutLoader;
+use Loki\CssUtils\Util\CssClassFactory;
+use Magento\Framework\App\ObjectManager;
 use Magento\Framework\View\Element\AbstractBlock;
 use Magento\Framework\View\Element\Text;
 use Magento\Framework\View\LayoutInterface;
@@ -45,9 +47,13 @@ class ContainerTemplateTest extends TestCase
 
     private function createContainerBlock(LayoutInterface $layout, array $data = []): AbstractBlock
     {
-        return $layout->createBlock(LokiScript::class, self::CONTAINER_NAME, [
+        $block = $layout->createBlock(LokiScript::class, self::CONTAINER_NAME, [
             'data' => array_merge(['template' => 'Loki_Base::container.phtml'], $data),
         ]);
+        $css = ObjectManager::getInstance()->get(CssClassFactory::class)->create();
+        $block->assign('css', $css->setBlock($block));
+
+        return $block;
     }
 
     private function addChild(LayoutInterface $layout, string $alias, string $text, int $sortOrder = 0): void
