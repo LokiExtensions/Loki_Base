@@ -9,7 +9,6 @@ use Loki\Base\ViewModel\FormKeyValue;
 use Loki\Base\ViewModel\LocaleCode;
 use Loki\Base\ViewModel\ModuleConfig;
 use Loki\Base\ViewModel\SectionConfig;
-use Loki\CssUtils\Util\CssClassFactory;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Data\Form\FormKey;
 use Magento\Framework\Escaper;
@@ -235,8 +234,7 @@ class TemplateRenderingTest extends TestCase
         $block = $this->createLayout()->createBlock(Template::class, 'loki.test.' . uniqid(), [
             'data' => array_merge(['template' => $template], $data),
         ]);
-        $css = ObjectManager::getInstance()->get(CssClassFactory::class)->create();
-        $block->assign('css', $css->setBlock($block));
+        $this->assignCssUtils($block);
 
         return (string)$block->toHtml();
     }

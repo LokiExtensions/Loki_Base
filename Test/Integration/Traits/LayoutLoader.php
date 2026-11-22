@@ -2,8 +2,10 @@
 
 namespace Loki\Base\Test\Integration\Traits;
 
+use Loki\CssUtils\Util\CssClassFactory;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\View\DesignInterface;
+use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\LayoutInterface;
 use Magento\Framework\View\Result\Page;
 use Magento\Framework\View\Result\PageFactory;
@@ -29,5 +31,11 @@ trait LayoutLoader
     private function createLayout(): LayoutInterface
     {
         return ObjectManager::getInstance()->create(LayoutInterface::class);
+    }
+
+    private function assignCssUtils(Template $block): void
+    {
+        $css = ObjectManager::getInstance()->get(CssClassFactory::class)->create();
+        $block->assign('css', $css->setBlock($block));
     }
 }
